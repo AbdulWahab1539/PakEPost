@@ -218,4 +218,7 @@
     <string name="to">To</string>
     <string name="track_postman">Track Postman</string>
     <string name="no_parcel">No Parcel History Available</string>
+    <string name="demo_name">Amar Murtaza</string>
+    <string name="demo_cnic">12345-5678956-7</string>
+    <string name="update_location">Update location</string>
 </resources>
