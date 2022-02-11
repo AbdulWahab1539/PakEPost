@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.PostmanMaps" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            app:cardCornerRadius="8sp"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true">
+
+            <TextView
+                android:id="@+id/place_to"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20sp"
+                android:drawablePadding="10sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/to"
+                app:drawableStartCompat="@drawable/ic_circle_filled"
+                app:drawableTint="@color/black" />
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btn_my_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_button"
+            android:contentDescription="@string/todo"
+            android:drawablePadding="10sp"
+            android:maxLines="1"
+            android:text="@string/start_navigation" />
+    </LinearLayout>
+
+</FrameLayout>
