@@ -125,7 +125,6 @@ public class Registration extends AppCompatActivity implements Info {
         dgLoading.dismiss();
         if (genericResponse.isSuccessful()) {
             Log.i(TAG, "initRegistrationResponse: " + genericResponse.getResponse().getKey());
-//            SharedPerfUtils.putStringSharedPrefs(this, genericResponse.getResponse().getKey(), PREF_ACCESS_TOKEN);
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         } else
