@@ -2,10 +2,15 @@ package com.app.fypfinal.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -13,37 +18,40 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
 import com.app.fypfinal.adapters.TypeRecyclerViewAdapter;
-import com.app.fypfinal.models.Super;
+import com.app.fypfinal.mvvm.pojo.Super;
 
 import java.util.List;
 
-public class ParcelHistory extends AppCompatActivity implements Info, SwipeRefreshLayout.OnRefreshListener {
+public class SentParcel extends Fragment implements Info, SwipeRefreshLayout.OnRefreshListener {
 
+    View fragSentParcel;
     RecyclerView rvParcel;
     LinearLayout layoutNoParcels;
     SwipeRefreshLayout swipeRefreshLayout;
     TypeRecyclerViewAdapter typeRecyclerViewAdapter;
     List<Super> list;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parcel_history);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        fragSentParcel = inflater.inflate(R.layout.activity_recieved_parcel, container, false);
         initViews();
+        return fragSentParcel;
     }
 
     private void initViews() {
-        rvParcel = findViewById(R.id.rv_parcel);
-        layoutNoParcels = findViewById(R.id.ll_no_parcel);
+        rvParcel = fragSentParcel.findViewById(R.id.rv_parcel);
+        layoutNoParcels = fragSentParcel.findViewById(R.id.ll_no_parcel);
 
-        swipeRefreshLayout = findViewById(R.id.srl_parcel);
+        swipeRefreshLayout = fragSentParcel.findViewById(R.id.srl_parcel);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    public void configureAdapter() {
+    public void configureAdapter(List<Super> list) {
+        this.list = list;
         initAdapter();
-        if (list != null && !list.isEmpty())
+        if (this.list != null && !this.list.isEmpty())
             layoutNoParcels.setVisibility(View.GONE);
         else
             layoutNoParcels.setVisibility(View.VISIBLE);
@@ -51,8 +59,9 @@ public class ParcelHistory extends AppCompatActivity implements Info, SwipeRefre
 
     @SuppressLint("NotifyDataSetChanged")
     private void initAdapter() {
-        typeRecyclerViewAdapter = new TypeRecyclerViewAdapter(getApplicationContext(), list, TYPE_POSTMAN_PARCEL);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        Log.i(TAG, "initAdapter: " + list.size());
+        typeRecyclerViewAdapter = new TypeRecyclerViewAdapter(requireContext(), list, TYPE_USER_PARCEL);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
         rvParcel.setLayoutManager(linearLayoutManager);
         rvParcel.smoothScrollToPosition(0);
         rvParcel.setAdapter(typeRecyclerViewAdapter);

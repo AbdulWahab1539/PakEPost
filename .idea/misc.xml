@@ -13,15 +13,22 @@
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_appointment_screen.xml" value="0.24728260869565216" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_customer_dashboard.xml" value="0.24728260869565216" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_login.xml" value="0.1793478260869565" />
-        <entry key="..\:/PakEPost/app/src/main/res/layout/activity_parcel_history.xml" value="0.25416666666666665" />
-        <entry key="..\:/PakEPost/app/src/main/res/layout/activity_postman_dashboard.xml" value="0.25416666666666665" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/activity_parcel_history.xml" value="0.152" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/activity_postman_dashboard.xml" value="0.2" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/activity_postman_parcel_history.xml" value="0.1234375" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_profile.xml" value="0.25416666666666665" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/activity_recieved_parcel.xml" value="0.109375" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_registration.xml" value="0.14447463768115942" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/activity_scanner.xml" value="0.25416666666666665" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/activity_sent_parcel.xml" value="0.109375" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_track_parcel.xml" value="0.25416666666666665" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_user_dashboard.xml" value="0.2" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/custom_marker.xml" value="0.4" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/customer_maps_activity.xml" value="0.12760416666666666" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/dialog_loading.xml" value="0.2513586956521739" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/fragment_maps.xml" value="0.11614583333333334" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/layout_parcels.xml" value="0.25416666666666665" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/postman_map_activity.xml" value="0.11666666666666667" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/FypFinal/app/src/main/res/drawable/ic_group_654.xml" value="0.26205128205128203" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/FypFinal/app/src/main/res/drawable/ic_rectangle_1594.xml" value="0.26205128205128203" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/FypFinal/app/src/main/res/drawable/upper_cut.xml" value="0.26205128205128203" />

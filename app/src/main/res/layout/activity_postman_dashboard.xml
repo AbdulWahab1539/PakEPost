@@ -86,10 +86,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginHorizontal="15dp"
+                        android:layout_gravity="center|center_horizontal"
+                        android:layout_marginHorizontal="10dp"
                         android:layout_marginBottom="10dp"
-                        android:text="@string/scan_qr_code"
+                        android:text="@string/scan_qr"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -101,6 +101,7 @@
                 android:layout_height="200dp"
                 android:layout_columnWeight="1"
                 android:layout_marginStart="5dp"
+                android:onClick="navigate"
                 app:cardBackgroundColor="@color/light_gray"
                 app:cardCornerRadius="10dp">
 
@@ -113,15 +114,13 @@
 
 
                     <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_margin="15dp"
-                        android:scaleX="1.5"
-                        android:scaleY="1.5"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
                         app:lottie_autoPlay="true"
                         app:lottie_enableMergePathsForKitKatAndAbove="true"
                         app:lottie_imageAssetsFolder="images/"
-                        app:lottie_rawRes="@raw/manicure"
+                        app:lottie_rawRes="@raw/track_postman"
                         app:lottie_repeatCount="99999"
                         app:lottie_repeatMode="restart" />
 
@@ -130,7 +129,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginHorizontal="15dp"
-                        android:text="@string/my_reviews"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/navigate"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
                 </LinearLayout>

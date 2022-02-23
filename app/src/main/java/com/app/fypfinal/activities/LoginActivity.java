@@ -14,13 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
 import com.app.fypfinal.utils.DialogUtils;
+import com.app.fypfinal.utils.SharedPerfUtils;
 import com.app.fypfinal.utils.Utils;
 
-/**
- * FIREBASE CONFIGURATION ACCOUNT
- * EMAIL = finalyearprojectcuiatd@gmail.com
- * PASSWORD = fypfinal
- */
 
 public class LoginActivity extends AppCompatActivity implements Info {
 
@@ -36,6 +32,16 @@ public class LoginActivity extends AppCompatActivity implements Info {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if (SharedPerfUtils.getStringSharedPrefs(this, PREF_ACCESS_TOKEN) != null
+                && !SharedPerfUtils.getStringSharedPrefs(this, PREF_ACCESS_TOKEN).isEmpty()) {
+            startActivity(new Intent(this, UserDashboard.class));
+            finish();
+        } else
+            initViews();
+    }
+
+    private void initViews() {
         context = this;
 
         etEmail = findViewById(R.id.et_email);

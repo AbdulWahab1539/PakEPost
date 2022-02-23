@@ -6,15 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
 import com.app.fypfinal.models.UserModel;
+import com.app.fypfinal.mvvm.mvvmutils.MVVMUtils;
+import com.app.fypfinal.mvvm.pojo.PostProfilePojo;
+import com.app.fypfinal.mvvm.pojo.RegResponsePojo;
+import com.app.fypfinal.mvvm.response.GenericResponse;
 import com.app.fypfinal.utils.DialogUtils;
 import com.app.fypfinal.utils.Utils;
 
@@ -30,16 +34,13 @@ public class Registration extends AppCompatActivity implements Info {
     EditText etPassword;
     EditText etConfirmPassword;
     EditText etFirstName;
-    EditText etLastName;
+    EditText etLastName, etEmail, etCnic;
     String strEtFirstName;
     String strEtLastName;
     String strEtUserName;
     String strEtEmail;
     String strEtPhone;
-    String strEtConfirmPassword;
-
-    RadioButton rbSalonManager;
-    RadioButton rbCustomer;
+    String strEtConfirmPassword, strEtCnic;
     Dialog dgLoading;
 
     @Override
@@ -65,23 +66,16 @@ public class Registration extends AppCompatActivity implements Info {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
     private void castStrings() {
+        Log.i(TAG, "castStrings: ");
         strEtFirstName = etFirstName.getText().toString();
         strEtLastName = etLastName.getText().toString();
         strEtUserName = etUserName.getText().toString();
         strEtPhone = etPhone.getText().toString();
         strEtPassword = etPassword.getText().toString();
         strEtConfirmPassword = etConfirmPassword.getText().toString();
+        strEtEmail = etEmail.getText().toString();
+        strEtCnic = etCnic.getText().toString();
     }
 
     private void initViews() {
@@ -91,41 +85,50 @@ public class Registration extends AppCompatActivity implements Info {
         etConfirmPassword = findViewById(R.id.et_confirm_pass);
         etFirstName = findViewById(R.id.et_first_name);
         etLastName = findViewById(R.id.et_last_name);
-        rbSalonManager = findViewById(R.id.rb_salon_manager);
-        rbCustomer = findViewById(R.id.rb_customer);
-        rbCustomer.setChecked(true);
+        etCnic = findViewById(R.id.et_cnic);
+        etEmail = findViewById(R.id.et_email);
     }
 
     public void back(View view) {
         finish();
     }
 
-    public void SignUpWithPhone(View view) {
+    public void SignUp(View view) {
         castStrings();
-        if (!Utils.validEt(etFirstName, strEtFirstName))
+        if (!Utils.validEt(etFirstName, strEtFirstName)) return;
+        if (!Utils.validEt(etLastName, strEtLastName)) return;
+        if (!Utils.validEt(etUserName, strEtUserName)) return;
+        if (!Utils.validEt(etPhone, strEtPhone)) return;
+        if (!Utils.validEt(etEmail, strEtEmail)) return;
+        if (!strEtPassword.equals(strEtConfirmPassword)) return;
+        if (!Utils.isValidEmail(strEtEmail)) return;
+        if (!Utils.validEt(etCnic, strEtCnic)) return;
+        if (!Utils.validatePhoneNumber(strEtPhone)) {
+            etPhone.setError("Phone number is wrong");
             return;
-
-        if (!Utils.validEt(etLastName, strEtLastName))
+        }
+        if (strEtCnic.length() < 13) {
+            etCnic.setError("please check Cnic number");
             return;
+        }
+        PostProfilePojo postProfilePojo = new PostProfilePojo(
+                strEtFirstName, strEtLastName, strEtUserName, strEtEmail, strEtPhone, strEtPassword,
+                strEtConfirmPassword);
 
-        if (!Utils.validEt(etUserName, strEtUserName))
-            return;
-
-        if (!Utils.validEt(etPhone, strEtPhone))
-            return;
-
-        if (!strEtPassword.equals(strEtConfirmPassword))
-            return;
-
-        strEtEmail = "abc" + strEtPhone + "@email.com";
-
-        Registration.userModel = new UserModel(strEtFirstName, strEtLastName, strEtUserName,
-                strEtEmail,
-                "+" + strEtPhone,
-                CUSTOMER);
-
-        startActivity(new Intent(this, PostVerificationCode.class));
+        dgLoading.show();
+        MVVMUtils.getViewModelRepo(this)
+                .postUser(postProfilePojo)
+                .observe(this, this::initRegistrationResponse);
     }
 
-
+    private void initRegistrationResponse(GenericResponse<RegResponsePojo> genericResponse) {
+        dgLoading.dismiss();
+        if (genericResponse.isSuccessful()) {
+            Log.i(TAG, "initRegistrationResponse: " + genericResponse.getResponse().getKey());
+//            SharedPerfUtils.putStringSharedPrefs(this, genericResponse.getResponse().getKey(), PREF_ACCESS_TOKEN);
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else
+            MVVMUtils.initErrMessages(this, genericResponse.getErrorMessages(), genericResponse.getResponseCode());
+    }
 }

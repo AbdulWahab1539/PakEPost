@@ -32,14 +32,17 @@ public class PostmanDashboard extends AppCompatActivity implements Info {
     }
 
     public void scanQR(View view) {
-        startActivity(new Intent(this, PostmanMaps.class));
+        startActivity(new Intent(this, Scanner.class));
     }
 
     public void parcelHistory(View view) {
-        startActivity(new Intent(this, ParcelHistory.class));
+        startActivity(new Intent(this, PostmanParcelHistory.class));
     }
 
     public void profile(View view) {
         startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void navigate(View view) {
     }
 }

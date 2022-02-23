@@ -44,7 +44,7 @@ public class UserDashboard extends AppCompatActivity implements Info {
     }
 
     public void parcelHistory(View view) {
-        startActivity(new Intent(this, ParcelHistory.class));
+        startActivity(new Intent(this, UserParcelHistory.class));
     }
 
 }
