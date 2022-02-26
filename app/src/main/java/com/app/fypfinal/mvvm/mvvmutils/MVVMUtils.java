@@ -14,8 +14,13 @@ import com.app.fypfinal.utils.SharedPerfUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class MVVMUtils implements Info {
     public static ViewModelRepo getViewModelRepo(Activity context) {
@@ -26,6 +31,12 @@ public class MVVMUtils implements Info {
         return "Token " + SharedPerfUtils.getStringSharedPrefs(context, PREF_ACCESS_TOKEN);
     }
 
+    public static MultipartBody.Part fileRequest(File file) {
+        RequestBody fileReqBody = RequestBody.create(MediaType.parse("multipart/form-data"),
+                file);
+        return MultipartBody.Part.createFormData("profile_image", file.getName(), fileReqBody);
+
+    }
 
     public static List<String> parseError(String response) {
         List<String> errorList = new ArrayList<>();

@@ -18,19 +18,6 @@
         android:layout_margin="10dp"
         android:orientation="vertical">
 
-
-        <EditText
-            android:id="@+id/et_tracking_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="phone"
-            android:drawablePadding="10sp"
-            android:inputType="number"
-            android:lines="1"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:text="@string/to" />
-
         <Button
             android:id="@+id/btn_track"
             android:layout_width="match_parent"

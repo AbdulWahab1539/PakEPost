@@ -15,8 +15,10 @@
         android:id="@+id/txtBarcodeValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="No Barcode Detected"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="@string/no_barcode_detected"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
 
@@ -26,5 +28,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="ADD CONTENT IN THE MAIL" />
+        android:text="@string/add_content_in_the_mail"
+        android:visibility="gone" />
 </RelativeLayout>

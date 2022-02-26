@@ -44,10 +44,10 @@ public class ParcelPojo extends Super {
     private Integer postman;
     @SerializedName("sender")
     @Expose
-    private Integer sender;
+    private ProfilePojo sender;
     @SerializedName("receiver")
     @Expose
-    private Integer receiver;
+    private ProfilePojo receiver;
 
     public Integer getId() {
         return id;
@@ -145,19 +145,19 @@ public class ParcelPojo extends Super {
         this.postman = postman;
     }
 
-    public Integer getSender() {
+    public ProfilePojo getSender() {
         return sender;
     }
 
-    public void setSender(Integer sender) {
+    public void setSender(ProfilePojo sender) {
         this.sender = sender;
     }
 
-    public Integer getReceiver() {
+    public ProfilePojo getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(Integer receiver) {
+    public void setReceiver(ProfilePojo receiver) {
         this.receiver = receiver;
     }
 

@@ -58,12 +58,24 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
 
     private void initParcels(TypeRecyclerViewHolder holder, int position) {
         parcelPojo = (ParcelPojo) listInstances.get(position);
+        if (type == TYPE_USER_PARCEL) {
+            holder.tvReceiver.setText(String.format("%s %s", parcelPojo.getReceiver().getFirstName(),
+                    parcelPojo.getReceiver().getLastName()));
+            holder.tvLocation.setText(parcelPojo.getReceiver().getAddress());
+        } else if (type == TYPE_USER_RECEIVED_PARCEL) {
+            holder.tvReceiver.setText(String.format("%s %s", parcelPojo.getSender().getFirstName(),
+                    parcelPojo.getSender().getLastName()));
+            holder.tvLocation.setText(parcelPojo.getSender().getAddress());
+        } else if (type == TYPE_POSTMAN_PARCEL) {
+            holder.tvReceiver.setText(String.format("%s %s", parcelPojo.getReceiver().getFirstName(),
+                    parcelPojo.getReceiver().getLastName()));
+            holder.tvLocation.setText(parcelPojo.getReceiver().getAddress());
+        }
+
+        holder.tvDetails.setText(parcelPojo.getDetails());
         holder.tvServiceType.setText(parcelPojo.getServiceType());
-        holder.tvReceiver.setText(String.valueOf(parcelPojo.getReceiver()));
-        holder.tvLocation.setText(parcelPojo.getDispatchLocation());
         holder.tvCharges.setText(String.valueOf(parcelPojo.getPostalCharges()));
     }
-
 
     @Override
     public int getItemCount() {

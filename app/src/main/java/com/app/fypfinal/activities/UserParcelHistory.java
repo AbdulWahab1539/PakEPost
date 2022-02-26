@@ -3,6 +3,7 @@ package com.app.fypfinal.activities;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -30,7 +31,7 @@ public class UserParcelHistory extends AppCompatActivity implements Info {
     FragmentPagerAdapter fragmentPagerAdapter;
     List<Super> listSent;
     public static List<Super> listRec;
-    Dialog dialog;
+    public Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,7 @@ public class UserParcelHistory extends AppCompatActivity implements Info {
     }
 
     public void initParcels() {
-//        dialog.show();
+        dialog.show();
         MVVMUtils.getViewModelRepo(this)
                 .getParcelsList(this)
                 .observe(this, this::initParcelsListResponse);
@@ -107,14 +108,15 @@ public class UserParcelHistory extends AppCompatActivity implements Info {
             if (FragmentPagerAdapter.selectedFragment instanceof SentParcel)
                 ((SentParcel) FragmentPagerAdapter.selectedFragment).configureAdapter(listSent);
             else
-                Log.i(TAG, "initParcelsListResponse: Not sent fragment");
-        } else
+                dialog.dismiss();
+        } else {
             MVVMUtils.initErrMessages(this, listGenericResponse.getErrorMessages(), listGenericResponse.getResponseCode());
-        dialog.dismiss();
+            dialog.dismiss();
+        }
     }
 
     public void initReceivedParcel() {
-//        dialog.show();
+        dialog.show();
         MVVMUtils.getViewModelRepo(this)
                 .getReceiverParcels(this)
                 .observe(this, this::initReceivedParcelResponse);
@@ -127,10 +129,11 @@ public class UserParcelHistory extends AppCompatActivity implements Info {
             if (FragmentPagerAdapter.selectedFragment instanceof ReceivedParcel)
                 ((ReceivedParcel) FragmentPagerAdapter.selectedFragment).configureAdapter(listRec);
             else
-                Log.i(TAG, "initParcelsListResponse: Not Received fragment");
-        } else
+                dialog.dismiss();
+        } else {
+            dialog.dismiss();
             MVVMUtils.initErrMessages(this, genericResponse.getErrorMessages(), genericResponse.getResponseCode());
-        dialog.dismiss();
+        }
     }
 
 
@@ -146,4 +149,7 @@ public class UserParcelHistory extends AppCompatActivity implements Info {
         super.onDestroy();
     }
 
+    public void back(View view) {
+        onBackPressed();
+    }
 }

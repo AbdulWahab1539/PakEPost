@@ -10,7 +10,11 @@ import com.app.fypfinal.R;
 
 public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
 
-    TextView tvServiceType, tvCharges, tvLocation, tvReceiver;
+    TextView tvServiceType,
+            tvCharges,
+            tvLocation,
+            tvReceiver,
+            tvDetails;
 
 
     public TypeRecyclerViewHolder(@NonNull View itemView) {
@@ -20,7 +24,7 @@ public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
         tvCharges = itemView.findViewById(R.id.tvv_charges);
         tvReceiver = itemView.findViewById(R.id.tvv_receiver);
         tvServiceType = itemView.findViewById(R.id.tvv_service_type);
-
+        tvDetails = itemView.findViewById(R.id.tvv_details);
     }
 
 

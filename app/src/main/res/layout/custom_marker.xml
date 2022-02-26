@@ -23,10 +23,11 @@
 
             <ImageView
                 android:id="@+id/marker_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:contentDescription="@string/todo" />
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="@string/todo"
+                android:scaleType="centerCrop"
+                android:src="@drawable/def_user" />
 
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>

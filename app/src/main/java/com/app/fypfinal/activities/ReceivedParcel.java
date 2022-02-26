@@ -28,7 +28,7 @@ public class ReceivedParcel extends Fragment implements Info, SwipeRefreshLayout
 
     RecyclerView rvParcel;
     LinearLayout layoutNoParcels;
-    SwipeRefreshLayout swipeRefreshLayout;
+    //    SwipeRefreshLayout swipeRefreshLayout;
     TypeRecyclerViewAdapter typeRecyclerViewAdapter;
     List<Super> list;
 
@@ -37,18 +37,16 @@ public class ReceivedParcel extends Fragment implements Info, SwipeRefreshLayout
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fragReceivedParcel = inflater.inflate(R.layout.activity_recieved_parcel, container, false);
-
         initViews();
-
         return fragReceivedParcel;
     }
 
     private void initViews() {
         rvParcel = fragReceivedParcel.findViewById(R.id.rv_parcel);
         layoutNoParcels = fragReceivedParcel.findViewById(R.id.ll_no_parcel);
-
-        swipeRefreshLayout = fragReceivedParcel.findViewById(R.id.srl_parcel);
-        swipeRefreshLayout.setOnRefreshListener(this);
+//
+//        swipeRefreshLayout = fragReceivedParcel.findViewById(R.id.srl_parcel);
+//        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     public void configureAdapter(List<Super> list) {
@@ -63,6 +61,7 @@ public class ReceivedParcel extends Fragment implements Info, SwipeRefreshLayout
     @SuppressLint("NotifyDataSetChanged")
     private void initAdapter() {
         Log.i(TAG, "initAdapter: " + list.size());
+        ((UserParcelHistory) requireActivity()).dialog.cancel();
         typeRecyclerViewAdapter = new TypeRecyclerViewAdapter(requireContext(), list, TYPE_USER_RECEIVED_PARCEL);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
         rvParcel.setLayoutManager(linearLayoutManager);
@@ -73,12 +72,15 @@ public class ReceivedParcel extends Fragment implements Info, SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+//        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onResume() {
-        configureAdapter(UserParcelHistory.listRec);
+        if (UserParcelHistory.listRec != null && !UserParcelHistory.listRec.isEmpty()) {
+            ((UserParcelHistory) requireActivity()).dialog.show();
+            configureAdapter(UserParcelHistory.listRec);
+        }
         super.onResume();
     }
 }

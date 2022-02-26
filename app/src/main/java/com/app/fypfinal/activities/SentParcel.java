@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
@@ -22,12 +21,11 @@ import com.app.fypfinal.mvvm.pojo.Super;
 
 import java.util.List;
 
-public class SentParcel extends Fragment implements Info, SwipeRefreshLayout.OnRefreshListener {
+public class SentParcel extends Fragment implements Info {
 
     View fragSentParcel;
     RecyclerView rvParcel;
     LinearLayout layoutNoParcels;
-    SwipeRefreshLayout swipeRefreshLayout;
     TypeRecyclerViewAdapter typeRecyclerViewAdapter;
     List<Super> list;
 
@@ -43,9 +41,6 @@ public class SentParcel extends Fragment implements Info, SwipeRefreshLayout.OnR
     private void initViews() {
         rvParcel = fragSentParcel.findViewById(R.id.rv_parcel);
         layoutNoParcels = fragSentParcel.findViewById(R.id.ll_no_parcel);
-
-        swipeRefreshLayout = fragSentParcel.findViewById(R.id.srl_parcel);
-        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     public void configureAdapter(List<Super> list) {
@@ -60,18 +55,13 @@ public class SentParcel extends Fragment implements Info, SwipeRefreshLayout.OnR
     @SuppressLint("NotifyDataSetChanged")
     private void initAdapter() {
         Log.i(TAG, "initAdapter: " + list.size());
+        ((UserParcelHistory) requireContext()).dialog.dismiss();
         typeRecyclerViewAdapter = new TypeRecyclerViewAdapter(requireContext(), list, TYPE_USER_PARCEL);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
         rvParcel.setLayoutManager(linearLayoutManager);
         rvParcel.smoothScrollToPosition(0);
         rvParcel.setAdapter(typeRecyclerViewAdapter);
         typeRecyclerViewAdapter.notifyDataSetChanged();
-    }
-
-
-    @Override
-    public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
     }
 
 }

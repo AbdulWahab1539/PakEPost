@@ -19,13 +19,14 @@ import com.app.fypfinal.mvvm.pojo.ParcelPojo;
 import com.app.fypfinal.mvvm.pojo.Super;
 import com.app.fypfinal.mvvm.response.GenericResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostmanParcelHistory extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, Info {
 
     RecyclerView rvParcel;
     LinearLayout layoutNoParcels;
-    SwipeRefreshLayout swipeRefreshLayout;
+    //    SwipeRefreshLayout swipeRefreshLayout;
     TypeRecyclerViewAdapter typeRecyclerViewAdapter;
     List<Super> list;
 
@@ -41,10 +42,10 @@ public class PostmanParcelHistory extends AppCompatActivity implements SwipeRefr
     private void initViews() {
         rvParcel = findViewById(R.id.rv_parcel);
         layoutNoParcels = findViewById(R.id.ll_no_parcel);
+        list = new ArrayList<>();
 
-        swipeRefreshLayout = findViewById(R.id.srl_parcel);
-        swipeRefreshLayout.setOnRefreshListener(this);
-
+//        swipeRefreshLayout = findViewById(R.id.srl_parcel);
+//        swipeRefreshLayout.setOnRefreshListener(this);
         initParcels();
     }
 
@@ -86,6 +87,11 @@ public class PostmanParcelHistory extends AppCompatActivity implements SwipeRefr
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+
+//        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public void back(View view) {
+        onBackPressed();
     }
 }

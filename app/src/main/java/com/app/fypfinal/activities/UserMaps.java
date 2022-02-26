@@ -4,27 +4,24 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.animation.LinearInterpolator;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
 import com.app.fypfinal.utils.JsonUtils;
+import com.app.fypfinal.utils.Utils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -59,7 +56,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
     LocationRequest locationRequest;
     FusedLocationProviderClient mFusedLocationClient;
     LatLng latLng;
-    Marker previousMarker, driverMarker;
+    Marker previousMarker, postmanMarker;
     SupportMapFragment mapFragment;
 
     LocationCallback mLocationCallback = new LocationCallback() {
@@ -68,7 +65,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
             for (Location location : locationResult.getLocations()) {
                 if (getApplication() != null) {
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    placeMarkerWithAddress();
+                    if (checkForLocation()) placeMarkerWithAddress();
                     if (!zoomUpdated) {
                         float zoomLevel = 17.0f; //This goes up to 21
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -134,6 +131,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
 
             }
         });
+
         UserDashboard.pubNub.subscribe()
                 .channels(Collections.singletonList(PUBNUB_CHANNEL_NAME)) // subscribe to channels
                 .execute();
@@ -149,7 +147,6 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
                 StringBuilder strReturnedAddress = new StringBuilder();
                 for (int j = 0; j <= returnedAddress.getMaxAddressLineIndex(); j++) {
                     strReturnedAddress.append(returnedAddress.getAddressLine(j)).append("");
-
                 }
                 street = strReturnedAddress.toString();
             }
@@ -159,8 +156,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         return street;
     }
 
-
-    private void checkForLocation() {
+    private boolean checkForLocation() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -168,7 +164,11 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
             mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, Looper.myLooper());
             mMap.setMyLocationEnabled(true);
             mMap.setOnMyLocationButtonClickListener(this);
-        } else checkLocationPermission();
+            return true;
+        } else {
+            Utils.checkLocationPermission(this);
+            return false;
+        }
     }
 
     @Override
@@ -180,36 +180,13 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
                         PackageManager.PERMISSION_GRANTED) {
                     mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, Looper.myLooper());
                     mMap.setMyLocationEnabled(true);
+                    mMap.setOnMyLocationButtonClickListener(this);
                 }
-            } else
-                Toast.makeText(getApplication(), "Please provide the permission", Toast.LENGTH_LONG).show();
-        }
-    }
-
-
-    public void loadNavigationView(String lat, String lng) {
-        Uri navigation = Uri.parse("google.navigation:q=" + lat + "," + lng + "");
-        Intent navigationIntent = new Intent(Intent.ACTION_VIEW, navigation);
-        navigationIntent.setPackage("com.google.android.apps.maps");
-        startActivity(navigationIntent);
-    }
-
-    private void checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION) &&
-                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                new android.app.AlertDialog.Builder(this)
-                        .setTitle("give permission")
-                        .setMessage("give permission message")
-                        .setPositiveButton("OK", (dialogInterface, i) ->
-                                ActivityCompat.requestPermissions(UserMaps.this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                                                Manifest.permission.ACCESS_COARSE_LOCATION}, 1)).create().show();
-            } else ActivityCompat.requestPermissions(UserMaps.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            } else new android.app.AlertDialog.Builder(this)
+                    .setTitle("Permission Denied")
+                    .setMessage("You have denied location permission previously please enable it from settings in order to " +
+                            "use this feature.")
+                    .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss()).create().show();
         }
     }
 
@@ -222,6 +199,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         if (previousMarker != null) previousMarker.remove();
         MarkerOptions mOptions = new MarkerOptions();
         mOptions.title(getLocationAddress());
+        mOptions.icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this)));
         mOptions.position(new LatLng(latLng.latitude, latLng.longitude));
         Marker myMarker = mMap.addMarker(mOptions);
         if (myMarker == null) return false;
@@ -235,36 +213,34 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         Log.i(TAG, "updateUI: ");
         LatLng newLocation = new LatLng(Double.parseDouble(Objects.requireNonNull(newLoc.get("lat"))),
                 Double.parseDouble(Objects.requireNonNull(newLoc.get("lng"))));
-        if (driverMarker != null) {
-            animateCar(newLocation);
+        if (postmanMarker != null) {
+            animatePostman(newLocation);
             boolean contains = mMap.getProjection()
                     .getVisibleRegion()
                     .latLngBounds
                     .contains(newLocation);
-            if (!contains) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
-            }
+            if (!contains) mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
         } else {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     newLocation, 15.5f));
-            driverMarker = mMap.addMarker(new MarkerOptions().position(newLocation).
-                    icon(BitmapDescriptorFactory.fromResource(R.drawable.vip)));
+            postmanMarker = mMap.addMarker(new MarkerOptions().position(newLocation).
+                    icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this))));
         }
     }
 
-    private void animateCar(final LatLng destination) {
-        final LatLng startPosition = driverMarker.getPosition();
+    private void animatePostman(final LatLng destination) {
+        final LatLng startPosition = postmanMarker.getPosition();
         final LatLng endPosition = new LatLng(destination.latitude, destination.longitude);
         final LatLngInterpolator latLngInterpolator = new LatLngInterpolator.LinearFixed();
 
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
-        valueAnimator.setDuration(5000); // duration 5 seconds
+        valueAnimator.setDuration(5000);
         valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.addUpdateListener(animation -> {
             try {
                 float v = animation.getAnimatedFraction();
                 LatLng newPosition = latLngInterpolator.interpolate(v, startPosition, endPosition);
-                driverMarker.setPosition(newPosition);
+                postmanMarker.setPosition(newPosition);
             } catch (Exception ex) {
                 Log.i(TAG, "onAnimationUpdate: " + ex);
             }

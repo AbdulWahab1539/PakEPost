@@ -12,6 +12,7 @@
     <color name="grey">#F4F4F4</color>
     <color name="dark_grey">#181818</color>
     <color name="text_color">#E8E8E3</color>
+    <color name="drawable_color">#e8e8e3</color>
     <color name="hint_color">#575757</color>
     <color name="text_color_red">#FF6B6B</color>
     <color name="line_color">#707070</color>

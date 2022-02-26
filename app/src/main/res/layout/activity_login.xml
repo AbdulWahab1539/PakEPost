@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginTop="10dp"
-                android:text="@string/cnic"
+                android:text="@string/email"
                 android:textColor="@color/text_color"
                 android:textSize="18sp"
                 android:visibility="visible" />
@@ -76,11 +76,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:autofillHints="creditCardNumber"
-                android:background="@drawable/ic_rectangle_1594"
-                android:drawableStart="@drawable/ic_card"
+                android:background="@drawable/ic_rectangle"
+                android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="10dp"
-                android:drawableTint="@color/text_color"
-                android:hint="@string/cnic"
+                android:drawableTint="@color/drawable_color"
+                android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
                 android:textColor="@color/text_color"
@@ -107,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:autofillHints="password"
-                    android:background="@drawable/ic_rectangle_1594"
+                    android:background="@drawable/ic_rectangle"
                     android:drawableStart="@drawable/ic_lock"
                     android:drawablePadding="10dp"
                     android:hint="@string/password"
@@ -147,7 +147,8 @@
                     android:layout_gravity="end|center"
                     android:onClick="ForgotPassword"
                     android:text="@string/forgot_password"
-                    android:textColor="@color/text_color_red" />
+                    android:textColor="@color/text_color_red"
+                    android:visibility="gone" />
             </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatButton

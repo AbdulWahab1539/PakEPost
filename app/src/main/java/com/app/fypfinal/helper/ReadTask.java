@@ -72,31 +72,32 @@ class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, St
 
     @Override
     protected void onPostExecute(List<List<HashMap<String, String>>> routes) {
-        ArrayList<LatLng> points = null;
+        ArrayList<LatLng> points;
         PolylineOptions polyLineOptions = null;
-        Log.i(TAG, "onPostExecute: " + routes.size());
         // traversing through routes
-        for (int i = 0; i < routes.size(); i++) {
-            points = new ArrayList<>();
-            polyLineOptions = new PolylineOptions();
-            List<HashMap<String, String>> path = routes.get(i);
+        if (routes != null)
+            for (int i = 0; i < routes.size(); i++) {
+                points = new ArrayList<>();
+                polyLineOptions = new PolylineOptions();
+                List<HashMap<String, String>> path = routes.get(i);
 
-            for (int j = 0; j < path.size(); j++) {
-                HashMap<String, String> point = path.get(j);
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
 
-                double lat = Double.parseDouble(Objects.requireNonNull(point.get("lat")));
-                double lng = Double.parseDouble(Objects.requireNonNull(point.get("lng")));
-                LatLng position = new LatLng(lat, lng);
-                Log.i(TAG, "onPostExecute: " + lat + lng);
-                points.add(position);
+                    double lat = Double.parseDouble(Objects.requireNonNull(point.get("lat")));
+                    double lng = Double.parseDouble(Objects.requireNonNull(point.get("lng")));
+                    LatLng position = new LatLng(lat, lng);
+//                Log.i(TAG, "onPostExecute: " + lat + lng);
+                    points.add(position);
+                }
+
+                polyLineOptions.addAll(points);
+                polyLineOptions.width(10);
+                polyLineOptions.color(PostmanMaps.lineColor);
             }
-
-            polyLineOptions.addAll(points);
-            polyLineOptions.width(10);
-            polyLineOptions.color(PostmanMaps.lineColor);
-        }
+        else Log.i(TAG, "onPostExecute: Routes are null");
         if (polyLineOptions != null) {
-            PostmanMaps.polyline = googleMap.addPolyline(polyLineOptions);
+            PostmanMaps.polyline.add(googleMap.addPolyline(polyLineOptions));
         } else Log.i(TAG, "onPostExecute: null");
     }
 }

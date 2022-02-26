@@ -44,6 +44,10 @@
         android:theme="@style/Theme.FypFinal"
         android:usesCleartextTraffic="true">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
         <activity
             android:name=".activities.Scanner"
             android:exported="true" />
@@ -52,20 +56,17 @@
             android:exported="true" />
         <activity
             android:name=".activities.ProfileActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.UserParcelHistory"
             android:exported="true" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
         <activity
-            android:name=".activities.PostVerificationCode"
+            android:name=".activities.PostmanParcelHistory"
             android:exported="true" />
+
         <activity
-            android:name=".activities.PostmanDashboard"
+            android:name=".activities.LoginActivity"
             android:exported="true" />
         <activity
             android:name=".activities.Registration"
@@ -80,7 +81,7 @@
             android:name=".activities.UserMaps"
             android:exported="true" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.PostmanDashboard"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

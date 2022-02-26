@@ -9,6 +9,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,19 +17,26 @@ import androidx.core.app.ActivityCompat;
 
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
+import com.app.fypfinal.mvvm.mvvmutils.MVVMUtils;
+import com.app.fypfinal.mvvm.pojo.ParcelPojo;
+import com.app.fypfinal.mvvm.response.GenericResponse;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Scanner extends AppCompatActivity implements Info {
 
+    private static final int REQUEST_CAMERA_PERMISSION = 201;
+    private CameraSource cameraSource;
     SurfaceView surfaceView;
     TextView txtBarcodeValue;
-    private CameraSource cameraSource;
-    private static final int REQUEST_CAMERA_PERMISSION = 201;
     Button btnAction;
     String intentData = "";
+    List<String> trackingIdList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,22 +49,8 @@ public class Scanner extends AppCompatActivity implements Info {
         txtBarcodeValue = findViewById(R.id.txtBarcodeValue);
         surfaceView = findViewById(R.id.surfaceView);
         btnAction = findViewById(R.id.btnAction);
-        btnAction.setOnClickListener(v -> {
-            if (intentData.length() > 0) {
-                if (PostmanMaps.trackingIdList.isEmpty())
-                    PostmanMaps.trackingIdList.add(intentData);
-                else {
-                    Log.i(TAG, "initViews: inside Loop");
-                    for (String trackingId : PostmanMaps.trackingIdList) {
-                        if (!trackingId.equals(intentData)) {
-                            Log.i(TAG, "initViews: " + intentData);
-                            PostmanMaps.trackingIdList.add(intentData);
-                        } else Log.i(TAG, "initViews: Already Exists");
-                    }
-                }
 
-            }
-        });
+        trackingIdList = new ArrayList<>();
     }
 
     private void initialiseDetectorsAndSources() {
@@ -109,15 +103,48 @@ public class Scanner extends AppCompatActivity implements Info {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() != 0) {
                     txtBarcodeValue.post(() -> {
-                        btnAction.setText(R.string.add_to_maps);
                         intentData = barcodes.valueAt(0).displayValue;
                         txtBarcodeValue.setText(intentData);
+//                        Toast.makeText(Scanner.this, "Parcel Scanned Successfully", Toast.LENGTH_SHORT).show();
+                        if (intentData != null && !intentData.isEmpty())
+                            excludeParcel(intentData);
+                        else
+                            Toast.makeText(Scanner.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     });
                 }
             }
         });
     }
 
+    private void initPostmanParcel(String intentData) {
+        MVVMUtils.getViewModelRepo(this)
+                .getTrackingParcel(this, intentData)
+                .observe(this, this::initPostmanParcelResponse);
+    }
+
+    private void initPostmanParcelResponse(GenericResponse<ParcelPojo> pojoGenericResponse) {
+        if (pojoGenericResponse.isSuccessful()) {
+            Log.i(TAG, "initPostmanParcelResponse: " + pojoGenericResponse.getResponse().getPostman());
+            Toast.makeText(this, "Parcel added Successfully", Toast.LENGTH_SHORT).show();
+            excludeParcel(intentData);
+        } else
+            MVVMUtils.initErrMessages(this, pojoGenericResponse.getErrorMessages(), pojoGenericResponse.getResponseCode());
+    }
+
+    private void excludeParcel(String intentData) {
+        if (trackingIdList.isEmpty())
+            trackingIdList.add(intentData);
+        else {
+            Log.i(TAG, "initViews: inside Loop");
+            for (String trackingId : trackingIdList) {
+                if (!trackingId.equals(intentData)) {
+                    Log.i(TAG, "initViews: " + intentData);
+                    trackingIdList.add(intentData);
+                    initPostmanParcel(intentData);
+                } else Log.i(TAG, "initViews: Already Exists");
+            }
+        }
+    }
 
     @Override
     protected void onPause() {

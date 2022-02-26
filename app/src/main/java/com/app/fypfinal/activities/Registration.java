@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
-import com.app.fypfinal.models.UserModel;
 import com.app.fypfinal.mvvm.mvvmutils.MVVMUtils;
 import com.app.fypfinal.mvvm.pojo.PostProfilePojo;
 import com.app.fypfinal.mvvm.pojo.RegResponsePojo;
@@ -24,8 +23,6 @@ import com.app.fypfinal.utils.Utils;
 
 public class Registration extends AppCompatActivity implements Info {
 
-    public static String verId;
-    public static UserModel userModel;
     public static Activity context;
     public static String strEtPassword;
     boolean isPassVisible = false;
@@ -53,6 +50,17 @@ public class Registration extends AppCompatActivity implements Info {
         DialogUtils.initLoadingDialog(dgLoading);
     }
 
+    private void initViews() {
+        etUserName = findViewById(R.id.et_user_name);
+        etPhone = findViewById(R.id.et_phone);
+        etPassword = findViewById(R.id.et_pass);
+        etConfirmPassword = findViewById(R.id.et_confirm_pass);
+        etFirstName = findViewById(R.id.et_first_name);
+        etLastName = findViewById(R.id.et_last_name);
+        etCnic = findViewById(R.id.et_cnic);
+        etEmail = findViewById(R.id.et_email);
+    }
+
     public void showPassword(View view) {
         if (!isPassVisible) {
             etConfirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -78,17 +86,6 @@ public class Registration extends AppCompatActivity implements Info {
         strEtCnic = etCnic.getText().toString();
     }
 
-    private void initViews() {
-        etUserName = findViewById(R.id.et_user_name);
-        etPhone = findViewById(R.id.et_phone);
-        etPassword = findViewById(R.id.et_pass);
-        etConfirmPassword = findViewById(R.id.et_confirm_pass);
-        etFirstName = findViewById(R.id.et_first_name);
-        etLastName = findViewById(R.id.et_last_name);
-        etCnic = findViewById(R.id.et_cnic);
-        etEmail = findViewById(R.id.et_email);
-    }
-
     public void back(View view) {
         finish();
     }
@@ -107,12 +104,17 @@ public class Registration extends AppCompatActivity implements Info {
             etPhone.setError("Phone number is wrong");
             return;
         }
+        if (strEtUserName.contains(" ")) {
+            etUserName.setError("Username cannot contain spaces");
+            return;
+        }
         if (strEtCnic.length() < 13) {
             etCnic.setError("please check Cnic number");
             return;
         }
+
         PostProfilePojo postProfilePojo = new PostProfilePojo(
-                strEtFirstName, strEtLastName, strEtUserName, strEtEmail, strEtPhone, strEtPassword,
+                strEtFirstName, strEtLastName, strEtUserName, strEtEmail, strEtCnic, strEtPhone, strEtPassword,
                 strEtConfirmPassword);
 
         dgLoading.show();

@@ -26,17 +26,25 @@ public class ProfilePojo {
     private String email;
     @SerializedName("profile_image")
     @Expose
-    private Object profileImage;
+    private String profileImage;
     @SerializedName("is_postman")
     @Expose
     private Boolean isPostman;
     @SerializedName("is_customer")
     @Expose
     private Boolean isCustomer;
+    @SerializedName("cnic")
+    @Expose
+    private String cnic;
 
+    @SerializedName("address")
+    @Expose
+    private String address;
 
-    public ProfilePojo(String firstName, String lastName, String phoneNumber, String latitude, String longitude,
-                       String email, Object profileImage, Boolean isPostman, Boolean isCustomer) {
+    public ProfilePojo() {
+    }
+
+    public ProfilePojo(String firstName, String lastName, String phoneNumber, String latitude, String longitude, String email, String profileImage, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -44,8 +52,7 @@ public class ProfilePojo {
         this.longitude = longitude;
         this.email = email;
         this.profileImage = profileImage;
-        this.isPostman = isPostman;
-        this.isCustomer = isCustomer;
+        this.address = address;
     }
 
     public String getFirstName() {
@@ -96,11 +103,11 @@ public class ProfilePojo {
         this.email = email;
     }
 
-    public Object getProfileImage() {
+    public String getProfileImage() {
         return profileImage;
     }
 
-    public void setProfileImage(Object profileImage) {
+    public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
 
@@ -120,5 +127,36 @@ public class ProfilePojo {
         this.isCustomer = isCustomer;
     }
 
+    public Boolean getPostman() {
+        return isPostman;
+    }
+
+    public void setPostman(Boolean postman) {
+        isPostman = postman;
+    }
+
+    public Boolean getCustomer() {
+        return isCustomer;
+    }
+
+    public void setCustomer(Boolean customer) {
+        isCustomer = customer;
+    }
+
+    public String getCnic() {
+        return cnic;
+    }
+
+    public void setCnic(String cnic) {
+        this.cnic = cnic;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
 

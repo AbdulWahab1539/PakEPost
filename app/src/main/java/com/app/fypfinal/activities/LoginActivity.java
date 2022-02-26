@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -13,6 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
+import com.app.fypfinal.mvvm.mvvmutils.MVVMUtils;
+import com.app.fypfinal.mvvm.pojo.LoginPojo;
+import com.app.fypfinal.mvvm.pojo.ProfilePojo;
+import com.app.fypfinal.mvvm.pojo.RegResponsePojo;
+import com.app.fypfinal.mvvm.response.GenericResponse;
 import com.app.fypfinal.utils.DialogUtils;
 import com.app.fypfinal.utils.SharedPerfUtils;
 import com.app.fypfinal.utils.Utils;
@@ -37,8 +43,7 @@ public class LoginActivity extends AppCompatActivity implements Info {
                 && !SharedPerfUtils.getStringSharedPrefs(this, PREF_ACCESS_TOKEN).isEmpty()) {
             startActivity(new Intent(this, UserDashboard.class));
             finish();
-        } else
-            initViews();
+        } else initViews();
     }
 
     private void initViews() {
@@ -71,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements Info {
     }
 
     private void castStrings() {
-        strEtEmail = "abc" + etEmail.getText().toString() + "@email.com";
+        strEtEmail = etEmail.getText().toString();
         strEtPassword = etPassword.getText().toString();
     }
 
@@ -83,9 +88,33 @@ public class LoginActivity extends AppCompatActivity implements Info {
 
     public void Login(View view) {
         castStrings();
-        if (!isEverythingValid())
-            return;
+        if (!isEverythingValid()) return;
         loadingDialog.show();
+        LoginPojo loginPojo = new LoginPojo(strEtEmail, strEtPassword);
+        MVVMUtils.getViewModelRepo(this)
+                .loginUser(loginPojo)
+                .observe(this, this::initLoginResponse);
     }
 
+    private void initLoginResponse(GenericResponse<RegResponsePojo> genericResponse) {
+        if (genericResponse.isSuccessful()) {
+            Log.i(TAG, "initLoginResponse: " + genericResponse.getResponse().getKey());
+            SharedPerfUtils.putStringSharedPrefs(this, genericResponse.getResponse().getKey(), PREF_ACCESS_TOKEN);
+            Utils.token = genericResponse.getResponse().getKey();
+            MVVMUtils.getViewModelRepo(this).getProfile(this).observe(this, this::initProfileResponse);
+        } else
+            MVVMUtils.initErrMessages(this, genericResponse.getErrorMessages(), genericResponse.getResponseCode());
+        loadingDialog.dismiss();
+    }
+
+    private void initProfileResponse(GenericResponse<ProfilePojo> genericResponse) {
+        if (genericResponse.isSuccessful()) {
+            if (genericResponse.getResponse().getIsCustomer())
+                startActivity(new Intent(this, UserDashboard.class));
+            else
+                startActivity(new Intent(this, PostmanDashboard.class));
+            finish();
+        } else
+            MVVMUtils.initErrMessages(this, genericResponse.getErrorMessages(), genericResponse.getResponseCode());
+    }
 }
