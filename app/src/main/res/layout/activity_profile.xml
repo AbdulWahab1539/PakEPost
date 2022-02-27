@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_grey"
     tools:context=".activities.ProfileActivity">
 
     <ImageView
@@ -104,6 +105,7 @@
                         android:id="@+id/tv_username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/text_color"
                         android:textSize="22sp" />
 
                     <TextView
@@ -111,6 +113,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:textColor="@color/text_color"
                         android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -262,8 +265,8 @@
             android:layout_weight=".9"
             android:onClick="updateProfile"
             android:padding="10dp"
-            android:text="@string/update_profile"
-            android:visibility="visible" />
+            app:backgroundTint="@color/yellow"
+            android:text="@string/update_profile" />
 
         <Button
             android:id="@+id/btn_signOut"
@@ -271,9 +274,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
+            app:backgroundTint="@color/yellow"
             android:onClick="signOut"
             android:padding="10dp"
-            android:text="@string/sign_out"
-            android:visibility="visible" />
+            android:text="@string/sign_out" />
     </LinearLayout>
 </RelativeLayout>

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +33,6 @@ public class Scanner extends AppCompatActivity implements Info {
     private CameraSource cameraSource;
     SurfaceView surfaceView;
     TextView txtBarcodeValue;
-    Button btnAction;
     String intentData = "";
     List<String> trackingIdList;
 
@@ -48,8 +46,6 @@ public class Scanner extends AppCompatActivity implements Info {
     private void initViews() {
         txtBarcodeValue = findViewById(R.id.txtBarcodeValue);
         surfaceView = findViewById(R.id.surfaceView);
-        btnAction = findViewById(R.id.btnAction);
-
         trackingIdList = new ArrayList<>();
     }
 

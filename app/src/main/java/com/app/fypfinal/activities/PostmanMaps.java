@@ -15,7 +15,6 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -69,7 +68,6 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
     LatLng selectedRoute;
     Button btnNavigate, btnDraw;
     Marker previousMarker;
-    TextView tvPlaceTo;
     List<LatLng> latLngList;
     Dialog dialog;
     public static PubNub pubNub;
@@ -109,7 +107,6 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         btnNavigate = findViewById(R.id.btn_my_location);
-        tvPlaceTo = findViewById(R.id.place_to);
         btnDraw = findViewById(R.id.btn_draw);
 
         locationRequest = LocationRequest.create();
