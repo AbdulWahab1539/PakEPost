@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -25,6 +26,7 @@ import androidx.core.content.ContextCompat;
 
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
+import com.app.fypfinal.activities.ProfileActivity;
 import com.app.fypfinal.mvvm.pojo.ProfilePojo;
 import com.bumptech.glide.Glide;
 
@@ -33,7 +35,6 @@ import java.util.regex.Pattern;
 
 
 public class Utils implements Info {
-    public static String token = "Token 1cc988bbb704972dd1cde9d02891e562dc82272f";
     public static ProfilePojo profilePojo;
 
     public static boolean validEt(EditText etUserName, String strEtUserName) {
@@ -72,6 +73,28 @@ public class Utils implements Info {
                             Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
     }
+
+    public static void initProfileUpdateDialog(Context context) {
+        new android.app.AlertDialog.Builder(context)
+                .setTitle("Profile Update")
+                .setMessage("Please update your address and location coordinates in profile settings. Other wise Postman will not be" +
+                        " able to reach your desired destination.")
+                .setCancelable(false)
+                .setPositiveButton("Update", (dialogInterface, i) -> {
+                    context.startActivity(new Intent(context, ProfileActivity.class));
+                    dialogInterface.dismiss();
+                }).create().show();
+    }
+
+    public static void initLocationPermissionDialog(Context context) {
+        new android.app.AlertDialog.Builder(context)
+                .setTitle("Permission Denied")
+                .setMessage("You have denied location permission previously please enable it from settings in order to " +
+                        "use this feature.")
+                .setCancelable(false)
+                .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss()).create().show();
+    }
+
 
     public static Bitmap getMarkerBitmapFromView(Context context) {
         Log.i(TAG, "getMarkerBitmapFromView: ");

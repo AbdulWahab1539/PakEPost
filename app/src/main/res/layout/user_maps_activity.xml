@@ -11,24 +11,20 @@
         android:layout_height="match_parent"
         tools:context=".activities.PostmanMaps" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btn_track"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/custom_button"
+        android:onClick="startTracking"
+        android:contentDescription="@string/todo"
+        android:drawablePadding="10sp"
+        android:maxLines="1"
+        android:text="@string/track_postman" />
 
-        <Button
-            android:id="@+id/btn_track"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/custom_button"
-            android:contentDescription="@string/todo"
-            android:drawablePadding="10sp"
-            android:maxLines="1"
-            android:text="@string/track_postman" />
-    </LinearLayout>
 
 </FrameLayout>

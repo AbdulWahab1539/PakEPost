@@ -173,7 +173,7 @@
     <string name="saloon_manager">Saloon Manager</string>
     <string name="saloon_manager_dashboard">Saloon Manager Dashboard</string>
     <string name="admin_dashboard">Admin Dashboard</string>
-    <string name="customer_dashboard">Customer Dashboard</string>
+    <string name="user_dashboard">User Dashboard</string>
     <string name="list_of_saloons">List Of Saloons</string>
     <string name="history">Parcel History</string>
     <string name="reviews_i_got_from_saloons">Reviews I got from saloons</string>
@@ -246,4 +246,5 @@
     <string name="your_address">Your Address</string>
     <string name="details">Details</string>
     <string name="draw_route">Draw route</string>
+    <string name="already_scanned">Barcode Already Scanned</string>
 </resources>

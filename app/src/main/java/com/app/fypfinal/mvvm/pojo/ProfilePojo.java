@@ -27,12 +27,7 @@ public class ProfilePojo {
     @SerializedName("profile_image")
     @Expose
     private String profileImage;
-    @SerializedName("is_postman")
-    @Expose
-    private Boolean isPostman;
-    @SerializedName("is_customer")
-    @Expose
-    private Boolean isCustomer;
+
     @SerializedName("cnic")
     @Expose
     private String cnic;
@@ -40,6 +35,10 @@ public class ProfilePojo {
     @SerializedName("address")
     @Expose
     private String address;
+
+    @SerializedName("type")
+    @Expose
+    private String type;
 
     public ProfilePojo() {
     }
@@ -111,38 +110,6 @@ public class ProfilePojo {
         this.profileImage = profileImage;
     }
 
-    public Boolean getIsPostman() {
-        return isPostman;
-    }
-
-    public void setIsPostman(Boolean isPostman) {
-        this.isPostman = isPostman;
-    }
-
-    public Boolean getIsCustomer() {
-        return isCustomer;
-    }
-
-    public void setIsCustomer(Boolean isCustomer) {
-        this.isCustomer = isCustomer;
-    }
-
-    public Boolean getPostman() {
-        return isPostman;
-    }
-
-    public void setPostman(Boolean postman) {
-        isPostman = postman;
-    }
-
-    public Boolean getCustomer() {
-        return isCustomer;
-    }
-
-    public void setCustomer(Boolean customer) {
-        isCustomer = customer;
-    }
-
     public String getCnic() {
         return cnic;
     }
@@ -157,6 +124,14 @@ public class ProfilePojo {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
 

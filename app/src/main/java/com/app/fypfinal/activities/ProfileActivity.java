@@ -31,6 +31,7 @@ import com.app.fypfinal.mvvm.pojo.Generic;
 import com.app.fypfinal.mvvm.pojo.ProfilePojo;
 import com.app.fypfinal.mvvm.response.GenericResponse;
 import com.app.fypfinal.utils.DialogUtils;
+import com.app.fypfinal.utils.SharedPerfUtils;
 import com.app.fypfinal.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -51,8 +52,8 @@ public class ProfileActivity extends AppCompatActivity implements Info {
     Dialog dgLoading;
     TextView tvLocation, tvUsername, tvCnic;
     ImageView ivProfile;
-    int LOCATION_REFRESH_TIME = 1000; // 15 seconds to update
-    int LOCATION_REFRESH_DISTANCE = 100; // 500 meters to update
+    int LOCATION_REFRESH_TIME = 1000;
+    int LOCATION_REFRESH_DISTANCE = 100;
     LocationManager mLocationManager;
     ProfilePojo profilePojo;
 
@@ -134,7 +135,7 @@ public class ProfileActivity extends AppCompatActivity implements Info {
         if (Utils.profilePojo.getProfileImage() != null)
             Glide.with(this)
                     .load(Utils.profilePojo.getProfileImage())
-                    .dontTransform()
+                    .circleCrop()
                     .into(ivProfile);
 
         Log.i(TAG, "initDefaultProfile: " + Utils.profilePojo.getLatitude() + Utils.profilePojo.getLongitude());
@@ -192,32 +193,12 @@ public class ProfileActivity extends AppCompatActivity implements Info {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
                 (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            checkLocationPermission();
+            Utils.checkLocationPermission(this);
             return;
         }
         dgLoading.show();
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                 LOCATION_REFRESH_DISTANCE, mLocationListener);
-    }
-
-    private void checkLocationPermission() {
-        Log.i(TAG, "checkLocationPermission: ");
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION) &&
-                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION))
-                new android.app.AlertDialog.Builder(this)
-                        .setTitle("give permission")
-                        .setMessage("give permission message")
-                        .setPositiveButton("OK", (dialogInterface, i) ->
-                                ActivityCompat.requestPermissions(ProfileActivity.this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                                                Manifest.permission.ACCESS_COARSE_LOCATION}, 1)).create().show();
-            else ActivityCompat.requestPermissions(ProfileActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        }
     }
 
     @Override
@@ -227,8 +208,7 @@ public class ProfileActivity extends AppCompatActivity implements Info {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
                         PackageManager.PERMISSION_GRANTED) getCurrentLocation();
-            } else
-                Toast.makeText(getApplication(), "Please provide the permission", Toast.LENGTH_LONG).show();
+            } else Utils.initLocationPermissionDialog(this);
         }
     }
 
@@ -282,5 +262,11 @@ public class ProfileActivity extends AppCompatActivity implements Info {
 
     public void back(View view) {
         onBackPressed();
+    }
+
+    public void signOut(View view) {
+        SharedPerfUtils.putStringSharedPrefs(this, null, PREF_ACCESS_TOKEN);
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 }

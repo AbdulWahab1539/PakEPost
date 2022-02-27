@@ -20,7 +20,7 @@ public class SharedPerfUtils implements Info {
 
     public static boolean getBooleanSharedPrefs(Activity context, String key) {
         SharedPreferences mPrefs = context.getSharedPreferences(NAME, 0);
-        boolean id = mPrefs.getBoolean(key, false);
+        boolean id = mPrefs.getBoolean(key, true);
         Log.i(TAG, "getBooleanSharedPrefs: " + id);
         return id;
     }
@@ -35,7 +35,7 @@ public class SharedPerfUtils implements Info {
 
     public static String getStringSharedPrefs(Activity context, String key) {
         SharedPreferences mPrefs = context.getSharedPreferences(NAME, 0);
-        String id = mPrefs.getString(key, "");
+        String id = mPrefs.getString(key, null);
         Log.i(TAG, "getStringSharedPrefs: " + id);
         return id;
     }

@@ -141,7 +141,7 @@ public class Scanner extends AppCompatActivity implements Info {
                     Log.i(TAG, "initViews: " + intentData);
                     trackingIdList.add(intentData);
                     initPostmanParcel(intentData);
-                } else Log.i(TAG, "initViews: Already Exists");
+                } else txtBarcodeValue.setText(R.string.already_scanned);
             }
         }
     }

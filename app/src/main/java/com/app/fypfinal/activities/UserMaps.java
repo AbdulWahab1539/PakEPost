@@ -11,6 +11,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pubnub.api.PNConfiguration;
 import com.pubnub.api.PubNub;
 import com.pubnub.api.callbacks.SubscribeCallback;
 import com.pubnub.api.models.consumer.PNStatus;
@@ -58,6 +60,8 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
     LatLng latLng;
     Marker previousMarker, postmanMarker;
     SupportMapFragment mapFragment;
+    public static PubNub pubNub;
+
 
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
@@ -91,8 +95,18 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         if (mapFragment != null) mapFragment.getMapAsync(this);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        initPubnub();
     }
 
+    public void initPubnub() {
+        Log.i(TAG, "initPubnub: ");
+        PNConfiguration pnConfiguration = new PNConfiguration();
+        pnConfiguration.setSubscribeKey(PUBNUB_SUBSCRIBE_KEY);
+        pnConfiguration.setPublishKey(PUBNUB_PUBLISH_KEY);
+        pnConfiguration.setSecure(true);
+        pubNub = new PubNub(pnConfiguration);
+    }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -105,9 +119,11 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         locationRequest.setSmallestDisplacement(10); // 10 meters minimum displacement for new location request
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // enables GPS high accuracy location requests
         checkForLocation();
+    }
 
+    public void startTracking(View view) {
         // This code adds the listener and subscribes passenger to channel with driver's location.
-        UserDashboard.pubNub.addListener(new SubscribeCallback() {
+        pubNub.addListener(new SubscribeCallback() {
             @Override
             public void status(PubNub pub, PNStatus status) {
                 Log.i(TAG, "status: " + status.getStatusCode());
@@ -132,7 +148,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
             }
         });
 
-        UserDashboard.pubNub.subscribe()
+        pubNub.subscribe()
                 .channels(Collections.singletonList(PUBNUB_CHANNEL_NAME)) // subscribe to channels
                 .execute();
     }
@@ -182,11 +198,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
                     mMap.setMyLocationEnabled(true);
                     mMap.setOnMyLocationButtonClickListener(this);
                 }
-            } else new android.app.AlertDialog.Builder(this)
-                    .setTitle("Permission Denied")
-                    .setMessage("You have denied location permission previously please enable it from settings in order to " +
-                            "use this feature.")
-                    .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss()).create().show();
+            } else Utils.initLocationPermissionDialog(this);
         }
     }
 
@@ -262,12 +274,20 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
             public LatLng interpolate(float fraction, LatLng a, LatLng b) {
                 double lat = (b.latitude - a.latitude) * fraction + a.latitude;
                 double lngDelta = b.longitude - a.longitude;
-                if (Math.abs(lngDelta) > 180) {
-                    lngDelta -= Math.signum(lngDelta) * 360;
-                }
+                if (Math.abs(lngDelta) > 180) lngDelta -= Math.signum(lngDelta) * 360;
                 double lng = lngDelta * fraction + a.longitude;
                 return new LatLng(lat, lng);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (pubNub != null) {
+            pubNub.destroy();
+            pubNub.removeChannelsFromChannelGroup();
+            pubNub.removePushNotificationsFromChannels();
+        }
+        super.onDestroy();
     }
 }

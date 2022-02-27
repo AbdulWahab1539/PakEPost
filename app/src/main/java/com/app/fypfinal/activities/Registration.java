@@ -1,6 +1,5 @@
 package com.app.fypfinal.activities;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import com.app.fypfinal.utils.Utils;
 
 public class Registration extends AppCompatActivity implements Info {
 
-    public static Activity context;
     public static String strEtPassword;
     boolean isPassVisible = false;
     EditText etUserName;
@@ -44,7 +42,6 @@ public class Registration extends AppCompatActivity implements Info {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        context = this;
         initViews();
         dgLoading = new Dialog(this);
         DialogUtils.initLoadingDialog(dgLoading);

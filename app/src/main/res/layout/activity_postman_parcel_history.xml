@@ -58,7 +58,8 @@
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/todo"
-            android:src="@drawable/ic_order_history" />
+            android:src="@drawable/ic_order_history"
+            app:tint="@color/drawable_color" />
 
         <TextView
             android:layout_width="match_parent"

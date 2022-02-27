@@ -1,6 +1,5 @@
 package com.app.fypfinal.activities;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import com.app.fypfinal.utils.Utils;
 
 public class LoginActivity extends AppCompatActivity implements Info {
 
-    public static Activity context;
     EditText etEmail;
     EditText etPassword;
     String strEtEmail;
@@ -37,23 +35,18 @@ public class LoginActivity extends AppCompatActivity implements Info {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        if (SharedPerfUtils.getStringSharedPrefs(this, PREF_ACCESS_TOKEN) != null
-                && !SharedPerfUtils.getStringSharedPrefs(this, PREF_ACCESS_TOKEN).isEmpty()) {
-            startActivity(new Intent(this, UserDashboard.class));
-            finish();
-        } else initViews();
-    }
-
-    private void initViews() {
-        context = this;
-
-        etEmail = findViewById(R.id.et_email);
-        etPassword = findViewById(R.id.et_pass);
 
         loadingDialog = new Dialog(this);
         DialogUtils.initLoadingDialog(loadingDialog);
+
+        if (SharedPerfUtils.getStringSharedPrefs(this, PREF_ACCESS_TOKEN) != null) initProfile();
+        else initViews();
+    }
+
+    private void initViews() {
+        setContentView(R.layout.activity_login);
+        etEmail = findViewById(R.id.et_email);
+        etPassword = findViewById(R.id.et_pass);
     }
 
     public void signUp(View view) {
@@ -69,10 +62,6 @@ public class LoginActivity extends AppCompatActivity implements Info {
             isPassVisible = false;
         }
 
-    }
-
-    public void ForgotPassword(View view) {
-//        TODO : RESET PASSWORD
     }
 
     private void castStrings() {
@@ -100,20 +89,31 @@ public class LoginActivity extends AppCompatActivity implements Info {
         if (genericResponse.isSuccessful()) {
             Log.i(TAG, "initLoginResponse: " + genericResponse.getResponse().getKey());
             SharedPerfUtils.putStringSharedPrefs(this, genericResponse.getResponse().getKey(), PREF_ACCESS_TOKEN);
-            Utils.token = genericResponse.getResponse().getKey();
-            MVVMUtils.getViewModelRepo(this).getProfile(this).observe(this, this::initProfileResponse);
+            initProfile();
         } else
             MVVMUtils.initErrMessages(this, genericResponse.getErrorMessages(), genericResponse.getResponseCode());
         loadingDialog.dismiss();
     }
 
+    private void initProfile() {
+        loadingDialog.show();
+        MVVMUtils.getViewModelRepo(this)
+                .getProfile(this)
+                .observe(this, this::initProfileResponse);
+    }
+
     private void initProfileResponse(GenericResponse<ProfilePojo> genericResponse) {
+        loadingDialog.dismiss();
         if (genericResponse.isSuccessful()) {
-            if (genericResponse.getResponse().getIsCustomer())
+            Utils.profilePojo = genericResponse.getResponse();
+            if (genericResponse.getResponse().getType().equals("CUSTOMER"))
                 startActivity(new Intent(this, UserDashboard.class));
             else
                 startActivity(new Intent(this, PostmanDashboard.class));
             finish();
+        } else if (genericResponse.getResponseCode() == 401) {
+            SharedPerfUtils.putStringSharedPrefs(this, null, PREF_ACCESS_TOKEN);
+            initViews();
         } else
             MVVMUtils.initErrMessages(this, genericResponse.getErrorMessages(), genericResponse.getResponseCode());
     }

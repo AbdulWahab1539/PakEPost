@@ -20,7 +20,8 @@
             android:id="@+id/rl_parcel_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp">
+            android:layout_marginVertical="10dp"
+            tools:ignore="UselessParent">
 
             <TextView
                 android:id="@+id/tv_receiver"
@@ -29,7 +30,6 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/receiver_name"
-                android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <TextView
@@ -51,7 +51,6 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/address"
-                android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <TextView
@@ -62,8 +61,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/none"
-                android:textColor="@android:color/black" />
+                android:text="@string/none" />
 
             <TextView
                 android:id="@+id/tv_service_type"
@@ -73,7 +71,6 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/service_type"
-                android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <TextView
@@ -84,8 +81,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/none"
-                android:textColor="@android:color/black" />
+                android:text="@string/none" />
 
             <LinearLayout
                 android:id="@+id/l_charges"
@@ -102,7 +98,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/charges"
-                    android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
                 <TextView
@@ -112,8 +107,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:text="@string/none"
-                    android:textAlignment="textEnd"
-                    android:textColor="@android:color/black" />
+                    android:textAlignment="textEnd" />
             </LinearLayout>
 
             <LinearLayout
@@ -129,7 +123,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/details"
-                    android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
                 <TextView
@@ -140,8 +133,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:text="@string/none"
-                    android:textAlignment="textEnd"
-                    android:textColor="@android:color/black" />
+                    android:textAlignment="textEnd" />
             </LinearLayout>
 
         </RelativeLayout>

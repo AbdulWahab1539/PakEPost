@@ -45,6 +45,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.pubnub.api.PNConfiguration;
+import com.pubnub.api.PubNub;
 import com.pubnub.api.callbacks.PNCallback;
 import com.pubnub.api.models.consumer.PNPublishResult;
 import com.pubnub.api.models.consumer.PNStatus;
@@ -70,6 +72,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
     TextView tvPlaceTo;
     List<LatLng> latLngList;
     Dialog dialog;
+    public static PubNub pubNub;
 
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
@@ -115,14 +118,24 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
         locationRequest.setSmallestDisplacement(10); // 10 meters minimum displacement for new location request
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // enables GPS high accuracy location requests
 
-        if (PostmanDashboard.pubNub != null) sendUpdatedLocationMessage();
-
         latLngList = new ArrayList<>();
         polyline = new ArrayList<>();
 
         dialog = new Dialog(this);
         DialogUtils.initLoadingDialog(dialog);
+
         initParcels();
+
+        initPubnub();
+    }
+
+    public void initPubnub() {
+        PNConfiguration pnConfiguration = new PNConfiguration();
+        pnConfiguration.setSubscribeKey(PUBNUB_SUBSCRIBE_KEY);
+        pnConfiguration.setPublishKey(PUBNUB_PUBLISH_KEY);
+        pnConfiguration.setSecure(true);
+        pubNub = new PubNub(pnConfiguration);
+        sendUpdatedLocationMessage();
     }
 
     private void initParcels() {
@@ -189,7 +202,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
                 public void onLocationResult(@NonNull LocationResult locationResult) {
                     Location location = locationResult.getLastLocation();
                     LinkedHashMap<String, String> message = getNewLocationMessage(location.getLatitude(), location.getLongitude());
-                    PostmanDashboard.pubNub.publish()
+                    pubNub.publish()
                             .message(message)
                             .channel(PUBNUB_CHANNEL_NAME)
                             .async(new PNCallback<PNPublishResult>() {
@@ -331,11 +344,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
                     mMap.setMyLocationEnabled(true);
                     mMap.setOnMyLocationButtonClickListener(this);
                 }
-            } else new android.app.AlertDialog.Builder(this)
-                    .setTitle("Permission Denied")
-                    .setMessage("You have denied location permission previously please enable it from settings in order to " +
-                            "use this feature.")
-                    .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss()).create().show();
+            } else Utils.initLocationPermissionDialog(this);
         }
     }
 
@@ -423,5 +432,13 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
         startActivity(navigationIntent);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        if (pubNub != null) {
+            pubNub.destroy();
+            pubNub.removeChannelsFromChannelGroup();
+            pubNub.removePushNotificationsFromChannels();
+        }
+        super.onDestroy();
+    }
 }
