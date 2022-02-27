@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
+import com.app.fypfinal.utils.SharedPerfUtils;
+import com.app.fypfinal.utils.Utils;
 
 public class UserDashboard extends AppCompatActivity implements Info {
 
@@ -15,6 +17,9 @@ public class UserDashboard extends AppCompatActivity implements Info {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dashboard);
+
+        if (SharedPerfUtils.getBooleanSharedPrefs(this, PREF_FIRST_LAUNCH))
+            Utils.initProfileUpdateDialog(this);
     }
 
 

@@ -149,6 +149,11 @@ public class ProfileActivity extends AppCompatActivity implements Info {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if ((Utils.profilePojo.getAddress() != null
+                && Utils.profilePojo.getAddress().isEmpty())
+                || (Double.parseDouble(Utils.profilePojo.getLatitude()) != 0.0
+                && Double.parseDouble(Utils.profilePojo.getLongitude()) != 0.0))
+            SharedPerfUtils.putBooleanSharedPrefs(this, false, PREF_FIRST_LAUNCH);
     }
 
     private void castStrings() {
@@ -213,7 +218,6 @@ public class ProfileActivity extends AppCompatActivity implements Info {
     }
 
     public void updateProfile(View view) {
-
         castStrings();
         if (!Utils.validEt(etFirstName, strEtFirstName)) return;
         if (!Utils.validEt(etLastName, strEtLastName)) return;
