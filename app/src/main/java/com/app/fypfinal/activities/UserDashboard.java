@@ -39,4 +39,9 @@ public class UserDashboard extends AppCompatActivity implements Info {
         startActivity(new Intent(this, UserParcelHistory.class));
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
 }

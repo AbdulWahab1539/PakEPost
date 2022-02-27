@@ -198,13 +198,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:autofillHints="phone"
+                android:autofillHints="postalAddress"
                 android:background="@drawable/ic_rectangle"
                 android:drawableStart="@drawable/ic_address"
                 android:drawablePadding="10dp"
                 android:drawableTint="@color/drawable_color"
                 android:hint="@string/your_address"
-                android:inputType="phone"
+                android:inputType="text"
                 android:padding="10dp"
                 android:paddingHorizontal="10dp"
                 android:textColor="@color/text_color"
@@ -265,8 +265,8 @@
             android:layout_weight=".9"
             android:onClick="updateProfile"
             android:padding="10dp"
-            app:backgroundTint="@color/yellow"
-            android:text="@string/update_profile" />
+            android:text="@string/update_profile"
+            app:backgroundTint="@color/yellow" />
 
         <Button
             android:id="@+id/btn_signOut"
@@ -274,9 +274,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
-            app:backgroundTint="@color/yellow"
             android:onClick="signOut"
             android:padding="10dp"
-            android:text="@string/sign_out" />
+            android:text="@string/sign_out"
+            app:backgroundTint="@color/yellow" />
     </LinearLayout>
 </RelativeLayout>

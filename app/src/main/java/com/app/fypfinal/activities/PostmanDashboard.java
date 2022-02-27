@@ -34,4 +34,10 @@ public class PostmanDashboard extends AppCompatActivity implements Info {
     public void navigate(View view) {
         startActivity(new Intent(this, PostmanMaps.class));
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
 }

@@ -150,10 +150,15 @@ public class ProfileActivity extends AppCompatActivity implements Info {
             e.printStackTrace();
         }
         if ((Utils.profilePojo.getAddress() != null
-                && Utils.profilePojo.getAddress().isEmpty())
+                && !Utils.profilePojo.getAddress().isEmpty())
                 || (Double.parseDouble(Utils.profilePojo.getLatitude()) != 0.0
                 && Double.parseDouble(Utils.profilePojo.getLongitude()) != 0.0))
             SharedPerfUtils.putBooleanSharedPrefs(this, false, PREF_FIRST_LAUNCH);
+        if ((Utils.profilePojo.getAddress() != null
+                && Utils.profilePojo.getAddress().isEmpty())
+                && (Double.parseDouble(Utils.profilePojo.getLatitude()) == 0.0
+                && Double.parseDouble(Utils.profilePojo.getLongitude()) == 0.0))
+            SharedPerfUtils.putBooleanSharedPrefs(this, true, PREF_FIRST_LAUNCH);
     }
 
     private void castStrings() {
@@ -270,7 +275,9 @@ public class ProfileActivity extends AppCompatActivity implements Info {
 
     public void signOut(View view) {
         SharedPerfUtils.putStringSharedPrefs(this, null, PREF_ACCESS_TOKEN);
-        startActivity(new Intent(this, LoginActivity.class));
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         finish();
     }
 }

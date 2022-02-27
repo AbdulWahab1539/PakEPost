@@ -3,6 +3,8 @@ package com.app.fypfinal.activities;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
@@ -24,6 +27,7 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +39,7 @@ public class Scanner extends AppCompatActivity implements Info {
     TextView txtBarcodeValue;
     String intentData = "";
     List<String> trackingIdList;
+    boolean cameraSourceStarted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +68,8 @@ public class Scanner extends AppCompatActivity implements Info {
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                try {
-                    if (ActivityCompat.checkSelfPermission(
-                            Scanner.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        cameraSource.start(surfaceView.getHolder());
-                    } else {
-                        ActivityCompat.requestPermissions(Scanner.this, new
-                                String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                cameraSourceStarted = true;
+                initBarCodeCamera();
             }
 
             @Override
@@ -101,7 +96,6 @@ public class Scanner extends AppCompatActivity implements Info {
                     txtBarcodeValue.post(() -> {
                         intentData = barcodes.valueAt(0).displayValue;
                         txtBarcodeValue.setText(intentData);
-//                        Toast.makeText(Scanner.this, "Parcel Scanned Successfully", Toast.LENGTH_SHORT).show();
                         if (intentData != null && !intentData.isEmpty())
                             excludeParcel(intentData);
                         else
@@ -110,6 +104,36 @@ public class Scanner extends AppCompatActivity implements Info {
                 }
             }
         });
+    }
+
+    private void initBarCodeCamera() {
+        try {
+            if (ActivityCompat.checkSelfPermission(
+                    Scanner.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                cameraSource.start(surfaceView.getHolder());
+            } else ActivityCompat.requestPermissions(Scanner.this, new
+                    String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+                        PackageManager.PERMISSION_GRANTED) {
+                    try {
+                        cameraSource.start(surfaceView.getHolder());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else
+                Toast.makeText(this, "Camera Permission is required to use this feature", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initPostmanParcel(String intentData) {
@@ -146,11 +170,18 @@ public class Scanner extends AppCompatActivity implements Info {
     protected void onPause() {
         super.onPause();
         cameraSource.release();
+        cameraSourceStarted = false;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         initialiseDetectorsAndSources();
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(() -> {
+            if (!cameraSourceStarted)
+                initBarCodeCamera();
+        }, 500);
     }
 }
