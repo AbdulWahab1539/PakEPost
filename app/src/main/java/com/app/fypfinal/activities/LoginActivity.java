@@ -86,6 +86,7 @@ public class LoginActivity extends AppCompatActivity implements Info {
     }
 
     private void initLoginResponse(GenericResponse<RegResponsePojo> genericResponse) {
+        Log.i(TAG, "initLoginResponse: ");
         if (genericResponse.isSuccessful()) {
             Log.i(TAG, "initLoginResponse: " + genericResponse.getResponse().getKey());
             SharedPerfUtils.putStringSharedPrefs(this, genericResponse.getResponse().getKey(), PREF_ACCESS_TOKEN);
@@ -96,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements Info {
     }
 
     private void initProfile() {
+        Log.i(TAG, "initProfile: ");
         loadingDialog.show();
         MVVMUtils.getViewModelRepo(this)
                 .getProfile(this)
@@ -106,11 +108,12 @@ public class LoginActivity extends AppCompatActivity implements Info {
         loadingDialog.dismiss();
         if (genericResponse.isSuccessful()) {
             Utils.profilePojo = genericResponse.getResponse();
-            if (genericResponse.getResponse().getType().equals("CUSTOMER"))
+            if (Utils.profilePojo.isCustomer())
                 startActivity(new Intent(this, UserDashboard.class));
             else
                 startActivity(new Intent(this, PostmanDashboard.class));
             finish();
+            Log.i(TAG, "initProfileResponse: ");
         } else if (genericResponse.getResponseCode() == 401) {
             SharedPerfUtils.putStringSharedPrefs(this, null, PREF_ACCESS_TOKEN);
             initViews();

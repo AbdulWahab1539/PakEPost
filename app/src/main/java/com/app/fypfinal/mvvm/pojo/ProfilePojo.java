@@ -36,9 +36,13 @@ public class ProfilePojo {
     @Expose
     private String address;
 
-    @SerializedName("type")
+    @SerializedName("is_postman")
     @Expose
-    private String type;
+    private boolean isPostman;
+
+    @SerializedName("is_customer")
+    @Expose
+    private boolean isCustomer;
 
     public ProfilePojo() {
     }
@@ -126,12 +130,20 @@ public class ProfilePojo {
         this.address = address;
     }
 
-    public String getType() {
-        return type;
+    public boolean isPostman() {
+        return isPostman;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setPostman(boolean postman) {
+        isPostman = postman;
+    }
+
+    public boolean isCustomer() {
+        return isCustomer;
+    }
+
+    public void setCustomer(boolean customer) {
+        isCustomer = customer;
     }
 }
 
