@@ -236,15 +236,18 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
 
     private void drawAllRoute() {
         MarkerOptions options = new MarkerOptions();
-        if (isLatLngAvailable())
+        if (isLatLngAvailable()) {
             for (LatLng latLng : latLngList) {
                 options.position(latLng);
                 mMap.addMarker(new MarkerOptions().position(latLng)
                         .title(getLocationAddress(latLng.latitude, latLng.longitude)));
+                Log.i(TAG, "drawAllRoute: " + latLng.longitude + latLng.latitude);
             }
-        mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(options.getPosition().latitude
-                , options.getPosition().longitude), 13));
+            mMap.addMarker(options);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(options.getPosition().latitude
+                    , options.getPosition().longitude), 13));
+        } else Toast.makeText(this, "No Parcels to draw Routes!!!", Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "drawAllRoute: " + latLngList.size());
         String url = null;
         if (latLngList.size() > 1) {
             url = getMultiDirections(false);
@@ -403,7 +406,9 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
     public void startNavigation(View view) {
         if (!checkForLocation()) return;
         if (selectedRoute != null) singleNavigation(selectedRoute);
-        else multipleNavigation();
+        else if (latLngList.size() > 0)
+            multipleNavigation();
+        else Toast.makeText(this, "No Parcels to start Navigation", Toast.LENGTH_SHORT).show();
     }
 
     private void multipleNavigation() {
