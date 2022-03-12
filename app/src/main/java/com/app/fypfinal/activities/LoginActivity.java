@@ -8,6 +8,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -108,12 +109,18 @@ public class LoginActivity extends AppCompatActivity implements Info {
         loadingDialog.dismiss();
         if (genericResponse.isSuccessful()) {
             Utils.profilePojo = genericResponse.getResponse();
-            if (Utils.profilePojo.isCustomer())
+            Log.i(TAG, "initProfileResponse: " + Utils.profilePojo.isCustomer() + Utils.profilePojo.isPostman());
+            if (Utils.profilePojo.isCustomer()) {
                 startActivity(new Intent(this, UserDashboard.class));
-            else
+                finish();
+            } else if (Utils.profilePojo.isPostman()) {
                 startActivity(new Intent(this, PostmanDashboard.class));
-            finish();
-            Log.i(TAG, "initProfileResponse: ");
+                finish();
+            } else {
+                Toast.makeText(this, "The Credentials you have provided are not for user or postman",
+                        Toast.LENGTH_SHORT).show();
+                initViews();
+            }
         } else if (genericResponse.getResponseCode() == 401) {
             SharedPerfUtils.putStringSharedPrefs(this, null, PREF_ACCESS_TOKEN);
             initViews();
