@@ -100,7 +100,7 @@ public class Utils implements Info {
         Log.i(TAG, "getMarkerBitmapFromView: ");
         @SuppressLint("InflateParams") View customMarkerView = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.custom_marker, null);
-        ImageView ivImage = (ImageView) customMarkerView.findViewById(R.id.marker_image);
+        ImageView ivImage = customMarkerView.findViewById(R.id.marker_image);
         if (Utils.profilePojo != null
                 && Utils.profilePojo.getProfileImage() != null
                 && !Utils.profilePojo.getProfileImage().isEmpty())
