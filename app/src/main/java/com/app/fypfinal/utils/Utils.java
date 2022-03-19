@@ -111,10 +111,7 @@ public class Utils implements Info {
                     .circleCrop()
                     .into(ivImage);
         else
-            Glide.with(context.getApplicationContext())
-                    .load(R.drawable.postman)
-                    .circleCrop()
-                    .into(ivImage);
+            ivImage.setImageResource(R.drawable.postman);
         customMarkerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         customMarkerView.layout(0, 0, customMarkerView.getMeasuredWidth(), customMarkerView.getMeasuredHeight());
         customMarkerView.buildDrawingCache();
