@@ -358,7 +358,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
         checkForLocation();
         if (previousMarker != null) previousMarker.remove();
         MarkerOptions mOptions = new MarkerOptions();
-        mOptions.icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this)));
+        mOptions.icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this, false)));
         mOptions.title(getLocationAddress(latLng.latitude, latLng.longitude));
         mOptions.position(new LatLng(latLng.latitude, latLng.longitude));
         Marker myMarker = mMap.addMarker(mOptions);

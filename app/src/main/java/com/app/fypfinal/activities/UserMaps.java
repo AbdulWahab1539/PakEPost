@@ -116,13 +116,13 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(5000); // 5 second delay between each request
         locationRequest.setFastestInterval(5000); // 5 seconds fastest time in between each request
-        locationRequest.setSmallestDisplacement(10); // 10 meters minimum displacement for new location request
+        locationRequest.setSmallestDisplacement(5); // 10 meters minimum displacement for new location request
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // enables GPS high accuracy location requests
         checkForLocation();
     }
 
     public void startTracking(View view) {
-        // This code adds the listener and subscribes passenger to channel with driver's location.
+        // This code adds the listener and subscribes user to channel with postman's location.
         pubNub.addListener(new SubscribeCallback() {
             @Override
             public void status(PubNub pub, PNStatus status) {
@@ -211,8 +211,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         if (previousMarker != null) previousMarker.remove();
         MarkerOptions mOptions = new MarkerOptions();
         mOptions.title(getLocationAddress());
-        mOptions.icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this)));
-        if (latLng == null) return false;
+        mOptions.icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this, false)));
         mOptions.position(new LatLng(latLng.latitude, latLng.longitude));
         Marker myMarker = mMap.addMarker(mOptions);
         if (myMarker == null) return false;
@@ -226,6 +225,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         Log.i(TAG, "updateUI: ");
         LatLng newLocation = new LatLng(Double.parseDouble(Objects.requireNonNull(newLoc.get("lat"))),
                 Double.parseDouble(Objects.requireNonNull(newLoc.get("lng"))));
+        Log.i(TAG, "updateUI: " + latLng.latitude + latLng.longitude);
         if (postmanMarker != null) {
             animatePostman(newLocation);
             boolean contains = mMap.getProjection()
@@ -237,7 +237,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     newLocation, 15.5f));
             postmanMarker = mMap.addMarker(new MarkerOptions().position(newLocation).
-                    icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this))));
+                    icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this, true))));
         }
     }
 

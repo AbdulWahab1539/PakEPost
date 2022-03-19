@@ -97,17 +97,22 @@ public class Utils implements Info {
     }
 
 
-    public static Bitmap getMarkerBitmapFromView(Context context) {
+    public static Bitmap getMarkerBitmapFromView(Context context, boolean isPostman) {
         if (context == null) return null;
         Log.i(TAG, "getMarkerBitmapFromView: ");
         @SuppressLint("InflateParams") View customMarkerView = ((LayoutInflater) Objects.requireNonNull(context).getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.custom_marker, null);
         ImageView ivImage = customMarkerView.findViewById(R.id.marker_image);
-        if (Utils.profilePojo != null
+        if (!isPostman && Utils.profilePojo != null
                 && Utils.profilePojo.getProfileImage() != null
                 && !Utils.profilePojo.getProfileImage().isEmpty())
             Glide.with(context.getApplicationContext())
                     .load(Utils.profilePojo.getProfileImage())
+                    .circleCrop()
+                    .into(ivImage);
+        else
+            Glide.with(context.getApplicationContext())
+                    .load(R.drawable.postman)
                     .circleCrop()
                     .into(ivImage);
         customMarkerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
