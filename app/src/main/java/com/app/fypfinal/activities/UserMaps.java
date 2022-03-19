@@ -144,7 +144,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
 
             @Override
             public void presence(PubNub pub, PNPresenceEventResult presence) {
-
+                Log.i(TAG, "presence: " + presence.getChannel());
             }
         });
 
@@ -212,6 +212,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         MarkerOptions mOptions = new MarkerOptions();
         mOptions.title(getLocationAddress());
         mOptions.icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this)));
+        if (latLng == null) return false;
         mOptions.position(new LatLng(latLng.latitude, latLng.longitude));
         Marker myMarker = mMap.addMarker(mOptions);
         if (myMarker == null) return false;
@@ -288,6 +289,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
             pubNub.removeChannelsFromChannelGroup();
             pubNub.removePushNotificationsFromChannels();
         }
+        if (mMap != null) mMap.clear();
         super.onDestroy();
     }
 }

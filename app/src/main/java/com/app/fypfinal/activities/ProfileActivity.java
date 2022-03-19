@@ -243,7 +243,10 @@ public class ProfileActivity extends AppCompatActivity implements Info {
         profilePojo.setEmail(strEtEmail);
         profilePojo.setPhoneNumber(strEtPhone);
         profilePojo.setAddress(strEtAddress);
-
+        if (Utils.profilePojo.isPostman())
+            profilePojo.setPostman(true);
+        else if (Utils.profilePojo.isCustomer())
+            profilePojo.setCustomer(true);
         dgLoading.show();
         MVVMUtils.getViewModelRepo(this)
                 .updateProfile(this, profilePojo)

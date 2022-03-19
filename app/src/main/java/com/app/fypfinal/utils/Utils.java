@@ -30,6 +30,7 @@ import com.app.fypfinal.activities.ProfileActivity;
 import com.app.fypfinal.mvvm.pojo.ProfilePojo;
 import com.bumptech.glide.Glide;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -97,14 +98,15 @@ public class Utils implements Info {
 
 
     public static Bitmap getMarkerBitmapFromView(Context context) {
+        if (context == null) return null;
         Log.i(TAG, "getMarkerBitmapFromView: ");
-        @SuppressLint("InflateParams") View customMarkerView = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+        @SuppressLint("InflateParams") View customMarkerView = ((LayoutInflater) Objects.requireNonNull(context).getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.custom_marker, null);
         ImageView ivImage = customMarkerView.findViewById(R.id.marker_image);
         if (Utils.profilePojo != null
                 && Utils.profilePojo.getProfileImage() != null
                 && !Utils.profilePojo.getProfileImage().isEmpty())
-            Glide.with(context)
+            Glide.with(context.getApplicationContext())
                     .load(Utils.profilePojo.getProfileImage())
                     .circleCrop()
                     .into(ivImage);

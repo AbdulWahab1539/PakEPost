@@ -1,7 +1,6 @@
 package com.app.fypfinal.activities;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -124,7 +123,7 @@ public class Registration extends AppCompatActivity implements Info {
         dgLoading.dismiss();
         if (genericResponse.isSuccessful()) {
             Log.i(TAG, "initRegistrationResponse: " + genericResponse.getResponse().getKey());
-            startActivity(new Intent(this, LoginActivity.class));
+            onBackPressed();
             finish();
         } else
             MVVMUtils.initErrMessages(this, genericResponse.getErrorMessages(), genericResponse.getResponseCode());

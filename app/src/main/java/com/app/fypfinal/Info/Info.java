@@ -6,6 +6,7 @@ public interface Info {
 
     String PUBNUB_PUBLISH_KEY = "pub-c-3bbb56e3-476d-4f4e-89a4-cc08209ccbd8";
     String PUBNUB_SUBSCRIBE_KEY = "sub-c-9703e626-8120-11ec-8ecc-dee9ee9643e0";
+
     String PUBNUB_CHANNEL_NAME = "postman_location";
 
     String PREF_ACCESS_TOKEN = "AccessToken";

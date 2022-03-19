@@ -41,7 +41,6 @@ public class UserDashboard extends AppCompatActivity implements Info {
 
     @Override
     public void onBackPressed() {
-        finish();
         super.onBackPressed();
     }
 }

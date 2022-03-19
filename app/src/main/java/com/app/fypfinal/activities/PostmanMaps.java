@@ -399,8 +399,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
 
     public void drawRoute(View view) {
         selectedRoute = null;
-        if (checkForLocation())
-            drawAllRoute();
+        if (checkForLocation()) drawAllRoute();
     }
 
     public void startNavigation(View view) {
@@ -441,6 +440,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
             pubNub.removeChannelsFromChannelGroup();
             pubNub.removePushNotificationsFromChannels();
         }
+        if (mMap != null) mMap.clear();
         super.onDestroy();
     }
 }

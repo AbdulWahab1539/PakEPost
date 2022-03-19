@@ -1,0 +1,759 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": ""
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false // root node is included
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.app.fypfinal.activities.LoginActivity"
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+
+
+'nodes
+subgraph cluster_96801 {
+   	label=app
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+
+   subgraph cluster_1136478522 {
+   	label=fypfinal
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+
+   ApiClient1282778823[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ApiClient</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+FragmentPagerAdapter1842625409[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)FragmentPagerAdapter</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   FRAGMENT_SIZE: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ createFragment(position: int): Fragment</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+GenericCallBack2076914764[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GenericCallBack&lt;T&gt;</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   callback: Callback&lt;T&gt; [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   mutableLiveData: MutableLiveData&lt;GenericResponse&lt;T&gt;&gt; [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+GenericResponse2076914764[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GenericResponse&lt;T&gt;</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   anyResponse: T [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   errorMessages: List&lt;String&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   rawResponse: Response&lt;T&gt; [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   responseCode: int [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+LoginActivity1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)LoginActivity</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   etEmail: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etPassword: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   isPassVisible: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   loadingDialog: Dialog [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtEmail: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtPassword: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ Login(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >- castStrings()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initLoginResponse(genericResponse: GenericResponse&lt;RegResponsePojo&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initProfile()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initProfileResponse(genericResponse: GenericResponse&lt;ProfilePojo&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initViews()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ showPassword(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ signUp(view: View)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MVVMUtils1662139010[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MVVMUtils</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ fileRequest(file: File): Part</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getToken(context: Activity): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getViewModelRepo(context: Activity): ViewModelRepo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initErrMessages(context: Context, messages: List&lt;String&gt;, code: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initError(key: String, errorList: List&lt;String&gt;, jObjError: JSONObject)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ parseError(response: String): List&lt;String&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ParcelPojo1111883895[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ParcelPojo</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   createdOn: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   details: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   dispatchLocation: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Integer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   isActive: Boolean [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   latitude: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   longitude: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   postalCharges: Integer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   postman: Integer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   qrImage: Object [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   receiver: ProfilePojo [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   sender: ProfilePojo [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   serviceType: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   trackingId: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ParserTask41603095[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ParserTask</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   googleMap: GoogleMap [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># doInBackground(jsonData: String...): List&lt;List&lt;HashMap&lt;String, String&gt;&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" ># onPostExecute(routes: List&lt;List&lt;HashMap&lt;String, String&gt;&gt;&gt;)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+PathJSONParser41603095[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)PathJSONParser</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- decodePoly(encoded: String): List&lt;LatLng&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ parse(jObject: JSONObject): List&lt;List&lt;HashMap&lt;String, String&gt;&gt;&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+PostmanDashboard1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)PostmanDashboard</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ navigate(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onBackPressed()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ parcelHistory(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ profile(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ scanQR(view: View)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+PostmanMaps1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)PostmanMaps</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   btnDraw: Button [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   btnNavigate: Button [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   dialog: Dialog [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   latLng: LatLng [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   latLngList: List&lt;LatLng&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   locationRequest: LocationRequest [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   mFusedLocationClient: FusedLocationProviderClient [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   mLocationCallback: LocationCallback [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mMap: GoogleMap [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   previousMarker: Marker [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   selectedRoute: LatLng [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   zoomUpdated: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- checkForLocation(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- drawAllRoute()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ drawRoute(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >- getLocationAddress(latitude: double, longitude: double): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getLocationFromAddress(context: Context, strAddress: String): LatLng</TD></TR>
+<TR><TD ALIGN="LEFT" >- getMultiDirections(isNavigation: boolean): String</TD></TR>
+<TR><TD ALIGN="LEFT" >- getNewLocationMessage(lat: double, lng: double): LinkedHashMap&lt;String, String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- getSingleDirection(latLng: LatLng): String</TD></TR>
+<TR><TD ALIGN="LEFT" >- initParcelResponse(response: GenericResponse&lt;List&lt;ParcelPojo&gt;&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initParcels()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initPubnub()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initViews()</TD></TR>
+<TR><TD ALIGN="LEFT" >- latLngNonZero(latLng: LatLng): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- multipleNavigation()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" ># onDestroy()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onMapReady(googleMap: GoogleMap)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onMarkerClick(marker: Marker): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onMyLocationButtonClick(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onRequestPermissionsResult(requestCode: int, permissions: String[], grantResults: int[])</TD></TR>
+<TR><TD ALIGN="LEFT" >- placeMarkerWithAddress(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendUpdatedLocationMessage()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ singleNavigation(latLng: LatLng)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startNavigation(view: View)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+PostmanParcelHistory1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)PostmanParcelHistory</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   layoutNoParcels: LinearLayout [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   list: List&lt;Super&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   rvParcel: RecyclerView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   typeRecyclerViewAdapter: TypeRecyclerViewAdapter [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ back(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ configureAdapter()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initAdapter()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initParcels()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initParcelsListResponse(listGenericResponse: GenericResponse&lt;List&lt;ParcelPojo&gt;&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initViews()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onRefresh()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ProfileActivity1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ProfileActivity</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   LOCATION_REFRESH_DISTANCE: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   LOCATION_REFRESH_TIME: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   dgLoading: Dialog [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etAddress: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etEmail: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etFirstName: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etLastName: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etPhone: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   ivProfile: ImageView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mLocationListener: LocationListener [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   mLocationManager: LocationManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   profilePojo: ProfilePojo [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtAddress: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtEmail: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtFirstName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtLastName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtPhone: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tvCnic: TextView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tvLocation: TextView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tvUsername: TextView [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ back(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >- castStrings()</TD></TR>
+<TR><TD ALIGN="LEFT" >- getCurrentLocation()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initDefaultProfile()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initPhotoResponse(response: GenericResponse&lt;Generic&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initProfile()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initProfileResponse(response: GenericResponse&lt;ProfilePojo&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initUpdateResponse(response: GenericResponse&lt;ProfilePojo&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initViews()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onActivityResult(requestCode: int, resultCode: int, data: Intent)</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onRequestPermissionsResult(requestCode: int, permissions: String[], grantResults: int[])</TD></TR>
+<TR><TD ALIGN="LEFT" >+ signOut(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateImage(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateLocation(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateProfile(view: View)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ProfilePojo1111883895[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ProfilePojo</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   address: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   cnic: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   email: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   firstName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   isCustomer: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   isPostman: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   lastName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   latitude: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   longitude: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   phoneNumber: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   profileImage: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ReadTask41603095[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ReadTask</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   googleMap: GoogleMap [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># doInBackground(url: String...): String</TD></TR>
+<TR><TD ALIGN="LEFT" ># onPostExecute(result: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ReceivedParcel1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ReceivedParcel</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   fragReceivedParcel: View [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   layoutNoParcels: LinearLayout [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   list: List&lt;Super&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   rvParcel: RecyclerView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   typeRecyclerViewAdapter: TypeRecyclerViewAdapter [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ configureAdapter(list: List&lt;Super&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initAdapter()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initViews()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onRefresh()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onResume()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Registration1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Registration</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   dgLoading: Dialog [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etCnic: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etConfirmPassword: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etEmail: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etFirstName: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etLastName: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etPassword: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etPhone: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etUserName: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   isPassVisible: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtCnic: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtConfirmPassword: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtEmail: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtFirstName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtLastName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtPhone: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtUserName: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ SignUp(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ back(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >- castStrings()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initRegistrationResponse(genericResponse: GenericResponse&lt;RegResponsePojo&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initViews()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ showPassword(view: View)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Scanner1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Scanner</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   cameraSource: CameraSource [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   cameraSourceStarted: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   intentData: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   surfaceView: SurfaceView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   trackingIdList: List&lt;String&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   txtBarcodeValue: TextView [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- excludeParcel(intentData: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initBarCodeCamera()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initPostmanParcel(intentData: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initPostmanParcelResponse(pojoGenericResponse: GenericResponse&lt;ParcelPojo&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initViews()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initialiseDetectorsAndSources()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" ># onPause()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onRequestPermissionsResult(requestCode: int, permissions: String[], grantResults: int[])</TD></TR>
+<TR><TD ALIGN="LEFT" ># onResume()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+SentParcel1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)SentParcel</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   fragSentParcel: View [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   layoutNoParcels: LinearLayout [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   list: List&lt;Super&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   rvParcel: RecyclerView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   typeRecyclerViewAdapter: TypeRecyclerViewAdapter [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ configureAdapter(list: List&lt;Super&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initAdapter()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initViews()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+SharedPerfUtils11107606[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)SharedPerfUtils</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ getBooleanSharedPrefs(context: Activity, key: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getStringSharedPrefs(context: Activity, key: String): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ putBooleanSharedPrefs(context: Activity, value: Boolean, key: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ putStringSharedPrefs(context: Activity, value: String, key: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Super1111883895[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Super</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TrackParcel1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TrackParcel</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   dialog: Dialog [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   etTrackingId: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   layoutCompleted: LinearLayout [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   layoutDispatched: LinearLayout [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   layoutOnWay: LinearLayout [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   lottieArrow1: LottieAnimationView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   lottieArrow2: LottieAnimationView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   lottieCompleted: LottieAnimationView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   lottieDispatch: LottieAnimationView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   lottieOnWay: LottieAnimationView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   parcelPojo: ParcelPojo [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   strEtTrackingId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tvCompleted: TextView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tvDispatch: TextView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tvOnWay: TextView [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ back(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initTracking()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initTrackingResponse(response: GenericResponse&lt;ParcelPojo&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initViews()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ track(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateUI()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TypeRecyclerViewAdapter1842625409[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TypeRecyclerViewAdapter</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   context: Context [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   listInstances: List&lt;Super&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   parcelPojo: ParcelPojo [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   type: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- initParcels(holder: TypeRecyclerViewHolder, position: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onBindViewHolder(holder: TypeRecyclerViewHolder, position: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onCreateViewHolder(parent: ViewGroup, viewType: int): TypeRecyclerViewHolder</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+UserDashboard1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)UserDashboard</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ onBackPressed()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ parcelHistory(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ profile(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ trackParcel(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ trackPostman(view: View)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+UserMaps1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)UserMaps</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   latLng: LatLng [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   locationRequest: LocationRequest [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   mFusedLocationClient: FusedLocationProviderClient [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   mLocationCallback: LocationCallback [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mMap: GoogleMap [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   mapFragment: SupportMapFragment [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   postmanMarker: Marker [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   previousMarker: Marker [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   zoomUpdated: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- animatePostman(destination: LatLng)</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkForLocation(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initPubnub()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initViews()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" ># onDestroy()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onMapReady(googleMap: GoogleMap)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onMyLocationButtonClick(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onRequestPermissionsResult(requestCode: int, permissions: String[], grantResults: int[])</TD></TR>
+<TR><TD ALIGN="LEFT" >- placeMarkerWithAddress(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startTracking(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateUI(newLoc: Map&lt;String, String&gt;)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+UserParcelHistory1763034792[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)UserParcelHistory</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   dialog: Dialog [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   fragmentPagerAdapter: FragmentPagerAdapter [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   listSent: List&lt;Super&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tabLayout: TabLayout [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   toolbar: Toolbar [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   viewPager: ViewPager2 [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ back(view: View)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initParcels()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initParcelsListResponse(listGenericResponse: GenericResponse&lt;List&lt;ParcelPojo&gt;&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initReceivedParcel()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initReceivedParcelResponse(genericResponse: GenericResponse&lt;List&lt;ParcelPojo&gt;&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- initTabLayout()</TD></TR>
+<TR><TD ALIGN="LEFT" >- initViews()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" ># onDestroy()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onSupportNavigateUp(): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Utils11107606[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Utils</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ checkLocationPermission(context: Activity)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getMarkerBitmapFromView(context: Context): Bitmap</TD></TR>
+<TR><TD ALIGN="LEFT" >- hasImage(view: ImageView): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initLocationPermissionDialog(context: Context)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initProfileUpdateDialog(context: Context)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ isValidEmail(target: CharSequence): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ validEt(etUserName: EditText, strEtUserName: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ validatePhoneNumber(phNumber: String): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+}
+}
+
+'edges
+GenericCallBack2076914764 -> GenericResponse2076914764[label="mutableLiveData
+[0..1]"];
+LoginActivity1763034792 -> ApiClient1282778823[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> FragmentPagerAdapter1842625409[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> GenericCallBack2076914764[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> MVVMUtils1662139010[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> ParserTask41603095[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> PathJSONParser41603095[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> PostmanDashboard1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> PostmanMaps1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> PostmanParcelHistory1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> ProfileActivity1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> ReadTask41603095[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> ReceivedParcel1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> Registration1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> Scanner1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> SentParcel1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> SharedPerfUtils11107606[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> TrackParcel1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> TypeRecyclerViewAdapter1842625409[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> UserDashboard1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> UserMaps1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> UserParcelHistory1763034792[arrowhead=none, arrowtail=empty, dir=both];
+LoginActivity1763034792 -> Utils11107606[arrowhead=none, arrowtail=empty, dir=both];
+ParcelPojo1111883895 -> ProfilePojo1111883895[label="receiver
+[0..1]"];
+ParcelPojo1111883895 -> ProfilePojo1111883895[label="sender
+[0..1]"];
+PostmanParcelHistory1763034792 -> Super1111883895[label="list
+[0..*]"];
+PostmanParcelHistory1763034792 -> TypeRecyclerViewAdapter1842625409[label="typeRecyclerViewAdapter
+[0..1]"];
+ProfileActivity1763034792 -> ProfilePojo1111883895[label="profilePojo
+[0..1]"];
+ReceivedParcel1763034792 -> Super1111883895[label="list
+[0..*]"];
+ReceivedParcel1763034792 -> TypeRecyclerViewAdapter1842625409[label="typeRecyclerViewAdapter
+[0..1]"];
+SentParcel1763034792 -> Super1111883895[label="list
+[0..*]"];
+SentParcel1763034792 -> TypeRecyclerViewAdapter1842625409[label="typeRecyclerViewAdapter
+[0..1]"];
+Super1111883895 -> ParcelPojo1111883895[arrowhead=none, arrowtail=empty, dir=both];
+TrackParcel1763034792 -> ParcelPojo1111883895[label="parcelPojo
+[0..1]"];
+TypeRecyclerViewAdapter1842625409 -> ParcelPojo1111883895[label="parcelPojo
+[0..1]"];
+TypeRecyclerViewAdapter1842625409 -> Super1111883895[label="listInstances
+[0..*]"];
+UserParcelHistory1763034792 -> FragmentPagerAdapter1842625409[label="fragmentPagerAdapter
+[0..1]"];
+UserParcelHistory1763034792 -> Super1111883895[label="listSent
+[0..*]"];
+
+}
+@enduml
