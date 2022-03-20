@@ -110,9 +110,9 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
         btnDraw = findViewById(R.id.btn_draw);
 
         locationRequest = LocationRequest.create();
-        locationRequest.setInterval(5000); // 5 second delay between each request
-        locationRequest.setFastestInterval(5000); // 5 seconds fastest time in between each request
-        locationRequest.setSmallestDisplacement(10); // 10 meters minimum displacement for new location request
+        locationRequest.setInterval(3000); // 5 second delay between each request
+        locationRequest.setFastestInterval(3000); // 5 seconds fastest time in between each request
+        locationRequest.setSmallestDisplacement(5); // 10 meters minimum displacement for new location request
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // enables GPS high accuracy location requests
 
         latLngList = new ArrayList<>();
