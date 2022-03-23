@@ -96,10 +96,10 @@ public class Scanner extends AppCompatActivity implements Info {
                     txtBarcodeValue.post(() -> {
                         intentData = barcodes.valueAt(0).displayValue;
                         txtBarcodeValue.setText(intentData);
-                        if (intentData != null && !intentData.isEmpty())
-                            excludeParcel(intentData);
-                        else
-                            Toast.makeText(Scanner.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+//                        if (intentData != null && !intentData.isEmpty())
+//                            excludeParcel(intentData);
+//                        else
+//                            Toast.makeText(Scanner.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     });
                 }
             }
@@ -146,7 +146,7 @@ public class Scanner extends AppCompatActivity implements Info {
         if (pojoGenericResponse.isSuccessful()) {
             Log.i(TAG, "initPostmanParcelResponse: " + pojoGenericResponse.getResponse().getPostman());
             Toast.makeText(this, "Parcel added Successfully", Toast.LENGTH_SHORT).show();
-            excludeParcel(intentData);
+//            excludeParcel(intentData);
         } else
             MVVMUtils.initErrMessages(this, pojoGenericResponse.getErrorMessages(), pojoGenericResponse.getResponseCode());
     }
@@ -161,7 +161,7 @@ public class Scanner extends AppCompatActivity implements Info {
                     Log.i(TAG, "initViews: " + intentData);
                     trackingIdList.add(intentData);
                     initPostmanParcel(intentData);
-                } else txtBarcodeValue.setText(R.string.already_scanned);
+                } else Toast.makeText(this, "Bar code Already Scanned.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -183,5 +183,11 @@ public class Scanner extends AppCompatActivity implements Info {
             if (!cameraSourceStarted)
                 initBarCodeCamera();
         }, 500);
+    }
+
+    @Override
+    protected void onDestroy() {
+        trackingIdList = null;
+        super.onDestroy();
     }
 }
