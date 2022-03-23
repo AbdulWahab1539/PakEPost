@@ -24,7 +24,7 @@ public class PostmanDashboard extends AppCompatActivity implements Info {
     }
 
     public void parcelHistory(View view) {
-        startActivity(new Intent(this, PostmanParcelHistory.class));
+        startActivity(new Intent(this, ParcelHistory.class));
     }
 
     public void profile(View view) {

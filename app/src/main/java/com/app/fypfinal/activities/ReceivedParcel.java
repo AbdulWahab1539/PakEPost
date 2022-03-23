@@ -19,6 +19,7 @@ import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
 import com.app.fypfinal.adapters.TypeRecyclerViewAdapter;
 import com.app.fypfinal.mvvm.pojo.Super;
+import com.app.fypfinal.utils.Utils;
 
 import java.util.List;
 
@@ -61,8 +62,11 @@ public class ReceivedParcel extends Fragment implements Info, SwipeRefreshLayout
     @SuppressLint("NotifyDataSetChanged")
     private void initAdapter() {
         Log.i(TAG, "initAdapter: " + list.size());
-        ((UserParcelHistory) requireActivity()).dialog.cancel();
-        typeRecyclerViewAdapter = new TypeRecyclerViewAdapter(requireContext(), list, TYPE_USER_RECEIVED_PARCEL);
+        ((ParcelHistory) requireActivity()).dialog.cancel();
+        if (Utils.profilePojo.isCustomer())
+            typeRecyclerViewAdapter = new TypeRecyclerViewAdapter(requireContext(), list, TYPE_USER_RECEIVED_PARCEL);
+        else if (Utils.profilePojo.isPostman())
+            typeRecyclerViewAdapter = new TypeRecyclerViewAdapter(requireContext(), list, TYPE_POSTMAN_SCANNED_PARCEL);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
         rvParcel.setLayoutManager(linearLayoutManager);
         rvParcel.smoothScrollToPosition(0);
@@ -77,9 +81,15 @@ public class ReceivedParcel extends Fragment implements Info, SwipeRefreshLayout
 
     @Override
     public void onResume() {
-        if (UserParcelHistory.listRec != null && !UserParcelHistory.listRec.isEmpty()) {
-            ((UserParcelHistory) requireActivity()).dialog.show();
-            configureAdapter(UserParcelHistory.listRec);
+        if (Utils.profilePojo.isCustomer() && ParcelHistory.listRec != null && !ParcelHistory.listRec.isEmpty()) {
+            ((ParcelHistory) requireActivity()).dialog.show();
+            configureAdapter(ParcelHistory.listRec);
+        }
+        if (Utils.profilePojo.isPostman()
+                && ParcelHistory.scannedParcel != null
+                && !ParcelHistory.scannedParcel.isEmpty()) {
+            ((ParcelHistory) requireActivity()).dialog.show();
+            configureAdapter(ParcelHistory.scannedParcel);
         }
         super.onResume();
     }

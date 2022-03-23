@@ -18,6 +18,7 @@ import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
 import com.app.fypfinal.adapters.TypeRecyclerViewAdapter;
 import com.app.fypfinal.mvvm.pojo.Super;
+import com.app.fypfinal.utils.Utils;
 
 import java.util.List;
 
@@ -55,8 +56,11 @@ public class SentParcel extends Fragment implements Info {
     @SuppressLint("NotifyDataSetChanged")
     private void initAdapter() {
         Log.i(TAG, "initAdapter: " + list.size());
-        ((UserParcelHistory) requireContext()).dialog.dismiss();
-        typeRecyclerViewAdapter = new TypeRecyclerViewAdapter(requireContext(), list, TYPE_USER_PARCEL);
+        ((ParcelHistory) requireContext()).dialog.dismiss();
+        if (Utils.profilePojo.isCustomer())
+            typeRecyclerViewAdapter = new TypeRecyclerViewAdapter(requireContext(), list, TYPE_USER_PARCEL);
+        else if (Utils.profilePojo.isPostman())
+            typeRecyclerViewAdapter = new TypeRecyclerViewAdapter(requireContext(), list, TYPE_POSTMAN_PARCEL);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
         rvParcel.setLayoutManager(linearLayoutManager);
         rvParcel.smoothScrollToPosition(0);

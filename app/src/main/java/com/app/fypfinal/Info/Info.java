@@ -15,6 +15,6 @@ public interface Info {
     int TYPE_POSTMAN_PARCEL = 1;
     int TYPE_USER_PARCEL = 2;
     int TYPE_USER_RECEIVED_PARCEL = 3;
-
+    int TYPE_POSTMAN_SCANNED_PARCEL = 4;
 
 }

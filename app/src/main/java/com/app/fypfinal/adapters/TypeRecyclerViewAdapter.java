@@ -49,11 +49,25 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
             return;
         }
         if (type == TYPE_POSTMAN_PARCEL) {
-            initParcels(holder, position);
+            initPostmanParcels(holder, position);
+            return;
+        }
+        if (type == TYPE_POSTMAN_SCANNED_PARCEL) {
+            initPostmanParcels(holder, position);
             return;
         }
         if (type == TYPE_USER_PARCEL) initParcels(holder, position);
 
+    }
+
+    private void initPostmanParcels(TypeRecyclerViewHolder holder, int position) {
+        parcelPojo = (ParcelPojo) listInstances.get(position);
+        holder.tvReceiver.setText(String.format("%s %s", parcelPojo.getReceiver().getFirstName(),
+                parcelPojo.getReceiver().getLastName()));
+        holder.tvLocation.setText(parcelPojo.getReceiver().getAddress());
+        holder.tvDetails.setText(parcelPojo.getDetails());
+        holder.tvServiceType.setText(parcelPojo.getServiceType());
+        holder.tvCharges.setText(String.valueOf(parcelPojo.getPostalCharges()));
     }
 
     private void initParcels(TypeRecyclerViewHolder holder, int position) {
@@ -66,12 +80,7 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
             holder.tvReceiver.setText(String.format("%s %s", parcelPojo.getSender().getFirstName(),
                     parcelPojo.getSender().getLastName()));
             holder.tvLocation.setText(parcelPojo.getSender().getAddress());
-        } else if (type == TYPE_POSTMAN_PARCEL) {
-            holder.tvReceiver.setText(String.format("%s %s", parcelPojo.getReceiver().getFirstName(),
-                    parcelPojo.getReceiver().getLastName()));
-            holder.tvLocation.setText(parcelPojo.getReceiver().getAddress());
         }
-
         holder.tvDetails.setText(parcelPojo.getDetails());
         holder.tvServiceType.setText(parcelPojo.getServiceType());
         holder.tvCharges.setText(String.valueOf(parcelPojo.getPostalCharges()));

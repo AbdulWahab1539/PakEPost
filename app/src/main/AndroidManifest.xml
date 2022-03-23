@@ -59,7 +59,7 @@
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.UserParcelHistory"
+            android:name=".activities.ParcelHistory"
             android:exported="true" />
         <activity
             android:name=".activities.PostmanParcelHistory"

@@ -17,20 +17,20 @@ import com.app.fypfinal.mvvm.pojo.ParcelPojo;
 import com.app.fypfinal.mvvm.pojo.Super;
 import com.app.fypfinal.mvvm.response.GenericResponse;
 import com.app.fypfinal.utils.DialogUtils;
+import com.app.fypfinal.utils.Utils;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class UserParcelHistory extends AppCompatActivity implements Info {
+public class ParcelHistory extends AppCompatActivity implements Info {
 
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager2 viewPager;
     FragmentPagerAdapter fragmentPagerAdapter;
-    List<Super> listSent;
-    public static List<Super> listRec;
+    public static List<Super> listSent, deliveredParcel, scannedParcel, listRec;
     public Dialog dialog;
 
     @Override
@@ -52,6 +52,8 @@ public class UserParcelHistory extends AppCompatActivity implements Info {
 
         listSent = new ArrayList<>();
         listRec = new ArrayList<>();
+        scannedParcel = new ArrayList<>();
+        deliveredParcel = new ArrayList<>();
 
         dialog = new Dialog(this);
         DialogUtils.initLoadingDialog(dialog);
@@ -62,8 +64,13 @@ public class UserParcelHistory extends AppCompatActivity implements Info {
     private void initTabLayout() {
         fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), getLifecycle());
         viewPager.setAdapter(fragmentPagerAdapter);
-        tabLayout.addTab(tabLayout.newTab().setText("Sent Parcels"));
-        tabLayout.addTab(tabLayout.newTab().setText("Received Parcels"));
+        if (Utils.profilePojo.isCustomer()) {
+            tabLayout.addTab(tabLayout.newTab().setText("Sent Parcels"));
+            tabLayout.addTab(tabLayout.newTab().setText("Received Parcels"));
+        } else if (Utils.profilePojo.isPostman()) {
+            tabLayout.addTab(tabLayout.newTab().setText("Delivered Parcels"));
+            tabLayout.addTab(tabLayout.newTab().setText("Scanned Parcels"));
+        }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -90,8 +97,10 @@ public class UserParcelHistory extends AppCompatActivity implements Info {
             }
         });
 
-        initParcels();
-        initReceivedParcel();
+        if (Utils.profilePojo.isCustomer()) {
+            initParcels();
+            initReceivedParcel();
+        } else if (Utils.profilePojo.isPostman()) initParcels();
     }
 
     public void initParcels() {
@@ -105,8 +114,18 @@ public class UserParcelHistory extends AppCompatActivity implements Info {
         if (listGenericResponse.isSuccessful()) {
             listSent.addAll(listGenericResponse.getResponse());
             Log.i(TAG, "initParcelsListResponse: " + listSent.size());
-            if (FragmentPagerAdapter.selectedFragment instanceof SentParcel)
+            for (ParcelPojo parcelPojo : listGenericResponse.getResponse()) {
+                if (!parcelPojo.getIsActive())
+                    deliveredParcel.add(parcelPojo);
+                else if (parcelPojo.getPostman() != null)
+                    scannedParcel.add(parcelPojo);
+            }
+            if (Utils.profilePojo.isCustomer() && FragmentPagerAdapter.selectedFragment instanceof SentParcel)
                 ((SentParcel) FragmentPagerAdapter.selectedFragment).configureAdapter(listSent);
+            else if (Utils.profilePojo.isPostman() && FragmentPagerAdapter.selectedFragment instanceof SentParcel)
+                ((SentParcel) FragmentPagerAdapter.selectedFragment).configureAdapter(deliveredParcel);
+            else if (Utils.profilePojo.isPostman() && FragmentPagerAdapter.selectedFragment instanceof ReceivedParcel)
+                ((ReceivedParcel) FragmentPagerAdapter.selectedFragment).configureAdapter(scannedParcel);
             else
                 dialog.dismiss();
         } else {
@@ -146,6 +165,9 @@ public class UserParcelHistory extends AppCompatActivity implements Info {
     @Override
     protected void onDestroy() {
         listSent = null;
+        listRec = null;
+        deliveredParcel = null;
+        scannedParcel = null;
         super.onDestroy();
     }
 
