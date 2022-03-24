@@ -24,7 +24,8 @@ import retrofit2.http.Path;
 public interface ApiCalls {
 
     //API Url
-    String BASE_URL = "https://jhonydev901.pythonanywhere.com";
+//    String BASE_URL = "https://jhonydev901.pythonanywhere.com";
+    String BASE_URL = "http://9481-103-131-215-225.ngrok.io";
 
     String URL_REGISTRATION = "/auth/registration/";
     String URL_LOGIN = "/auth/login/";
@@ -34,6 +35,7 @@ public interface ApiCalls {
     String URL_TRACK = "/api/parcel/{tracking_id}";
     String URL_PROFILE = "/api/my/profile/";
     String URL_UPDATE_IMAGE = "/api/my/image/";
+    String URL_FORGET = "/auth/password/reset/";
 
     @POST(URL_REGISTRATION)
     Call<RegResponsePojo> postUser(@Body PostProfilePojo postProfilePojo);

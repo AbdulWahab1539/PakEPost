@@ -18,7 +18,6 @@ public class PostmanDashboard extends AppCompatActivity implements Info {
         setContentView(R.layout.activity_postman_dashboard);
     }
 
-
     public void scanQR(View view) {
         startActivity(new Intent(this, Scanner.class));
     }

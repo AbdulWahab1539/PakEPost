@@ -96,6 +96,7 @@ public class Scanner extends AppCompatActivity implements Info {
                     txtBarcodeValue.post(() -> {
                         intentData = barcodes.valueAt(0).displayValue;
                         txtBarcodeValue.setText(intentData);
+                        initPostmanParcel(intentData);
 //                        if (intentData != null && !intentData.isEmpty())
 //                            excludeParcel(intentData);
 //                        else
@@ -160,7 +161,6 @@ public class Scanner extends AppCompatActivity implements Info {
                 if (!trackingId.equals(intentData)) {
                     Log.i(TAG, "initViews: " + intentData);
                     trackingIdList.add(intentData);
-                    initPostmanParcel(intentData);
                 } else Toast.makeText(this, "Bar code Already Scanned.", Toast.LENGTH_SHORT).show();
             }
         }
