@@ -77,9 +77,11 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
                     parcelPojo.getReceiver().getLastName()));
             holder.tvLocation.setText(parcelPojo.getReceiver().getAddress());
         } else if (type == TYPE_USER_RECEIVED_PARCEL) {
-            holder.tvReceiver.setText(String.format("%s %s", parcelPojo.getSender().getFirstName(),
-                    parcelPojo.getSender().getLastName()));
-            holder.tvLocation.setText(parcelPojo.getSender().getAddress());
+            if (parcelPojo.getSender() != null && parcelPojo.getSender() != null)
+                holder.tvReceiver.setText(String.format("%s %s", parcelPojo.getSender().getFirstName(),
+                        parcelPojo.getSender().getLastName()));
+            if (parcelPojo.getSender() != null)
+                holder.tvLocation.setText(parcelPojo.getSender().getAddress());
         }
         holder.tvDetails.setText(parcelPojo.getDetails());
         holder.tvServiceType.setText(parcelPojo.getServiceType());
