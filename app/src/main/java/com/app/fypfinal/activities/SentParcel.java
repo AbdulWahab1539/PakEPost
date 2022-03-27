@@ -42,6 +42,10 @@ public class SentParcel extends Fragment implements Info {
     private void initViews() {
         rvParcel = fragSentParcel.findViewById(R.id.rv_parcel);
         layoutNoParcels = fragSentParcel.findViewById(R.id.ll_no_parcel);
+        if (Utils.profilePojo.isCustomer())
+            configureAdapter(ParcelHistory.listSent);
+        else if (Utils.profilePojo.isPostman())
+            configureAdapter(ParcelHistory.deliveredParcel);
     }
 
     public void configureAdapter(List<Super> list) {

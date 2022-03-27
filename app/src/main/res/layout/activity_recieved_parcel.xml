@@ -34,12 +34,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-    <!--        android:id="@+id/srl_parcel"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="?android:attr/actionBarSize">-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_parcel"
         android:layout_width="match_parent"
@@ -48,7 +42,5 @@
         android:clipToPadding="false"
         android:paddingBottom="100dp"
         android:scrollbarStyle="outsideOverlay" />
-
-    <!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
 </RelativeLayout>

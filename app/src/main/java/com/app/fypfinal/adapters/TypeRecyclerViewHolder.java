@@ -1,6 +1,7 @@
 package com.app.fypfinal.adapters;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
             tvLocation,
             tvReceiver,
             tvDetails;
+    Button btnDelievred;
 
 
     public TypeRecyclerViewHolder(@NonNull View itemView) {
@@ -25,6 +27,8 @@ public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
         tvReceiver = itemView.findViewById(R.id.tvv_receiver);
         tvServiceType = itemView.findViewById(R.id.tvv_service_type);
         tvDetails = itemView.findViewById(R.id.tvv_details);
+
+        btnDelievred = itemView.findViewById(R.id.btn_delievred);
     }
 
 

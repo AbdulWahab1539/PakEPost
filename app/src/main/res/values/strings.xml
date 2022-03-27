@@ -247,4 +247,7 @@
     <string name="details">Details</string>
     <string name="draw_route">Draw route</string>
     <string name="already_scanned">Barcode Already Scanned</string>
+    <string name="delievred">Delievred</string>
+    <string name="un_received">Not Received</string>
+    <string name="received">Received</string>
 </resources>

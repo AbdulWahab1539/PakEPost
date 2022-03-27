@@ -120,6 +120,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/l_charges"
@@ -146,6 +147,19 @@
                     android:textAlignment="textEnd"
                     android:textColor="@color/text_color" />
             </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btn_delievred"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_details"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/custom_button"
+                android:backgroundTint="@color/yellow"
+                android:text="@string/delievred"
+                android:visibility="gone"
+                app:backgroundTint="@color/yellow" />
 
         </RelativeLayout>
     </LinearLayout>

@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.app.fypfinal.Info.Info;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ParcelHistory extends AppCompatActivity implements Info {
+public class ParcelHistory extends AppCompatActivity implements Info, SwipeRefreshLayout.OnRefreshListener {
 
     Toolbar toolbar;
     TabLayout tabLayout;
@@ -32,6 +33,7 @@ public class ParcelHistory extends AppCompatActivity implements Info {
     FragmentPagerAdapter fragmentPagerAdapter;
     public static List<Super> listSent, deliveredParcel, scannedParcel, listRec;
     public Dialog dialog;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class ParcelHistory extends AppCompatActivity implements Info {
         dialog = new Dialog(this);
         DialogUtils.initLoadingDialog(dialog);
 
+        swipeRefreshLayout = findViewById(R.id.srl_parcels);
+        swipeRefreshLayout.setOnRefreshListener(this);
         initTabLayout();
     }
 
@@ -96,7 +100,14 @@ public class ParcelHistory extends AppCompatActivity implements Info {
                 tabLayout.selectTab(tabLayout.getTabAt(position));
             }
         });
+        initParcelsInfo();
+    }
 
+    public void initParcelsInfo() {
+        if (listRec != null && !listRec.isEmpty()) listRec.clear();
+        if (listSent != null && !listSent.isEmpty()) listSent.clear();
+        if (deliveredParcel != null && !deliveredParcel.isEmpty()) deliveredParcel.clear();
+        if (scannedParcel != null && !scannedParcel.isEmpty()) scannedParcel.clear();
         if (Utils.profilePojo.isCustomer()) {
             initParcels();
             initReceivedParcel();
@@ -173,5 +184,11 @@ public class ParcelHistory extends AppCompatActivity implements Info {
 
     public void back(View view) {
         onBackPressed();
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
+        initParcelsInfo();
     }
 }

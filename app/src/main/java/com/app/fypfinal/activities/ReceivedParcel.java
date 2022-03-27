@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
@@ -23,13 +22,12 @@ import com.app.fypfinal.utils.Utils;
 
 import java.util.List;
 
-public class ReceivedParcel extends Fragment implements Info, SwipeRefreshLayout.OnRefreshListener {
+public class ReceivedParcel extends Fragment implements Info {
 
     View fragReceivedParcel;
 
     RecyclerView rvParcel;
     LinearLayout layoutNoParcels;
-    //    SwipeRefreshLayout swipeRefreshLayout;
     TypeRecyclerViewAdapter typeRecyclerViewAdapter;
     List<Super> list;
 
@@ -45,9 +43,11 @@ public class ReceivedParcel extends Fragment implements Info, SwipeRefreshLayout
     private void initViews() {
         rvParcel = fragReceivedParcel.findViewById(R.id.rv_parcel);
         layoutNoParcels = fragReceivedParcel.findViewById(R.id.ll_no_parcel);
-//
-//        swipeRefreshLayout = fragReceivedParcel.findViewById(R.id.srl_parcel);
-//        swipeRefreshLayout.setOnRefreshListener(this);
+
+        if (Utils.profilePojo.isCustomer())
+            configureAdapter(ParcelHistory.listRec);
+        else if (Utils.profilePojo.isPostman())
+            configureAdapter(ParcelHistory.scannedParcel);
     }
 
     public void configureAdapter(List<Super> list) {
@@ -75,22 +75,17 @@ public class ReceivedParcel extends Fragment implements Info, SwipeRefreshLayout
     }
 
     @Override
-    public void onRefresh() {
-//        swipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
     public void onResume() {
-        if (Utils.profilePojo.isCustomer() && ParcelHistory.listRec != null && !ParcelHistory.listRec.isEmpty()) {
-            ((ParcelHistory) requireActivity()).dialog.show();
-            configureAdapter(ParcelHistory.listRec);
-        }
-        if (Utils.profilePojo.isPostman()
-                && ParcelHistory.scannedParcel != null
-                && !ParcelHistory.scannedParcel.isEmpty()) {
-            ((ParcelHistory) requireActivity()).dialog.show();
-            configureAdapter(ParcelHistory.scannedParcel);
-        }
+//        if (Utils.profilePojo.isCustomer() && ParcelHistory.listRec != null && !ParcelHistory.listRec.isEmpty()) {
+//            ((ParcelHistory) requireActivity()).dialog.show();
+//            configureAdapter(ParcelHistory.listRec);
+//        }
+//        if (Utils.profilePojo.isPostman()
+//                && ParcelHistory.scannedParcel != null
+//                && !ParcelHistory.scannedParcel.isEmpty()) {
+//            ((ParcelHistory) requireActivity()).dialog.show();
+//            configureAdapter(ParcelHistory.scannedParcel);
+//        }
         super.onResume();
     }
 }

@@ -96,6 +96,7 @@ public class Scanner extends AppCompatActivity implements Info {
                     txtBarcodeValue.post(() -> {
                         intentData = barcodes.valueAt(0).displayValue;
                         txtBarcodeValue.setText(intentData);
+                        Log.i(TAG, "receiveDetections: " + intentData);
                         initPostmanParcel(intentData);
 //                        if (intentData != null && !intentData.isEmpty())
 //                            excludeParcel(intentData);

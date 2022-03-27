@@ -65,5 +65,9 @@ public class ViewModelRepo extends AndroidViewModel {
         return new GenericCall<>(apiCalls.getParcelsList(MVVMUtils.getToken(activity))).getMutableLiveData();
     }
 
+    public LiveData<GenericResponse<Generic>> markParcelDelievred(Activity activity, String trackingId) {
+        return new GenericCall<>(apiCalls.markParcelDelievred(MVVMUtils.getToken(activity), trackingId)).getMutableLiveData();
+    }
+
 
 }

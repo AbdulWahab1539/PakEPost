@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/dark_grey"
     tools:context=".activities.SentParcel">
 
@@ -20,8 +20,8 @@
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/todo"
-            app:tint="@color/drawable_color"
-            android:src="@drawable/ic_order_history" />
+            android:src="@drawable/ic_order_history"
+            app:tint="@color/drawable_color" />
 
         <TextView
             android:layout_width="match_parent"

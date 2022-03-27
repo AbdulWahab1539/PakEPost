@@ -2,5 +2,8 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">9481-103-131-215-225.ngrok.io</domain>
+        <domain includeSubdomains="true">29e7-59-103-244-165.ngrok.io</domain>
+        <domain includeSubdomains="true">a078-103-131-215-225.ngrok.io</domain>
+        <domain includeSubdomains="true">d1ac-59-103-244-165.ngrok.io</domain>
     </domain-config>
 </network-security-config>

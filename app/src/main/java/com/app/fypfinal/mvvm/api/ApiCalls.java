@@ -24,14 +24,14 @@ import retrofit2.http.Path;
 public interface ApiCalls {
 
     //API Url
-    String BASE_URL = "https://jhonydev901.pythonanywhere.com";
-//    String BASE_URL = "http://9481-103-131-215-225.ngrok.io";
+//    String BASE_URL = "https://jhonydev901.pythonanywhere.com";
+    String BASE_URL = "http://d1ac-59-103-244-165.ngrok.io";
 
     String URL_REGISTRATION = "/auth/registration/";
     String URL_LOGIN = "/auth/login/";
-
     String URL_PARCEL = "/api/my/parcel/";
     String URL_RECEIVER_PARCEL = "/api/receiver/parcel/";
+    String URL_DELIEVRED_PARCEL = "/api/parcel/active/{tracking_id}/";
     String URL_TRACK = "/api/parcel/{tracking_id}";
     String URL_PROFILE = "/api/my/profile/";
     String URL_UPDATE_IMAGE = "/api/my/image/";
@@ -45,6 +45,9 @@ public interface ApiCalls {
 
     @GET(URL_PROFILE)
     Call<ProfilePojo> getProfile(@Header("Authorization") String token);
+
+    @POST(URL_DELIEVRED_PARCEL)
+    Call<Generic> markParcelDelievred(@Header("Authorization") String token, @Path("tracking_id") String trackingId);
 
     @PUT(URL_PROFILE)
     Call<ProfilePojo> updateProfile(@Header("Authorization") String token, @Body ProfilePojo profilePojo);
