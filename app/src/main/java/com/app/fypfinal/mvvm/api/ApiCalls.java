@@ -29,13 +29,14 @@ public interface ApiCalls {
 
     String URL_REGISTRATION = "/auth/registration/";
     String URL_LOGIN = "/auth/login/";
+    String URL_FORGET = "/auth/password/reset/";
     String URL_PARCEL = "/api/my/parcel/";
     String URL_RECEIVER_PARCEL = "/api/receiver/parcel/";
     String URL_DELIEVRED_PARCEL = "/api/parcel/active/{tracking_id}/";
     String URL_TRACK = "/api/parcel/{tracking_id}";
     String URL_PROFILE = "/api/my/profile/";
     String URL_UPDATE_IMAGE = "/api/my/image/";
-    String URL_FORGET = "/auth/password/reset/";
+
 
     @POST(URL_REGISTRATION)
     Call<RegResponsePojo> postUser(@Body PostProfilePojo postProfilePojo);
