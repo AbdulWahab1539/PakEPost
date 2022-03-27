@@ -24,8 +24,8 @@ import retrofit2.http.Path;
 public interface ApiCalls {
 
     //API Url
-//    String BASE_URL = "https://jhonydev901.pythonanywhere.com";
-    String BASE_URL = "http://d1ac-59-103-244-165.ngrok.io";
+    String BASE_URL = "https://jhonydev901.pythonanywhere.com";
+//    String BASE_URL = "http://d1ac-59-103-244-165.ngrok.io";
 
     String URL_REGISTRATION = "/auth/registration/";
     String URL_LOGIN = "/auth/login/";
