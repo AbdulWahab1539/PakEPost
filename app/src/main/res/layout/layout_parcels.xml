@@ -41,9 +41,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_toEndOf="@id/tv_receiver"
+                android:gravity="end"
                 android:text="@string/none"
-                android:textColor="@color/yellow"
-                tools:ignore="RelativeOverlap" />
+                android:textColor="@color/yellow" />
 
             <TextView
                 android:id="@+id/tv_address"
@@ -60,10 +61,11 @@
                 android:id="@+id/tvv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_receiver"
+                android:layout_below="@id/tvv_receiver"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
+                android:gravity="end"
                 android:text="@string/none"
                 android:textColor="@color/text_color" />
 
@@ -86,6 +88,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
+                android:gravity="end"
                 android:text="@string/none"
                 android:textColor="@color/text_color" />
 

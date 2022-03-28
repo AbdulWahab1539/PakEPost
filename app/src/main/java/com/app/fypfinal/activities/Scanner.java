@@ -28,8 +28,6 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Scanner extends AppCompatActivity implements Info {
 
@@ -38,8 +36,8 @@ public class Scanner extends AppCompatActivity implements Info {
     SurfaceView surfaceView;
     TextView txtBarcodeValue;
     String intentData = "";
-    List<String> trackingIdList;
     boolean cameraSourceStarted;
+    String previousId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +49,6 @@ public class Scanner extends AppCompatActivity implements Info {
     private void initViews() {
         txtBarcodeValue = findViewById(R.id.txtBarcodeValue);
         surfaceView = findViewById(R.id.surfaceView);
-        trackingIdList = new ArrayList<>();
     }
 
     private void initialiseDetectorsAndSources() {
@@ -95,13 +92,13 @@ public class Scanner extends AppCompatActivity implements Info {
                 if (barcodes.size() != 0) {
                     txtBarcodeValue.post(() -> {
                         intentData = barcodes.valueAt(0).displayValue;
-                        txtBarcodeValue.setText(intentData);
                         Log.i(TAG, "receiveDetections: " + intentData);
-                        initPostmanParcel(intentData);
-//                        if (intentData != null && !intentData.isEmpty())
-//                            excludeParcel(intentData);
-//                        else
-//                            Toast.makeText(Scanner.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                        txtBarcodeValue.setText(intentData);
+                        if (previousId == null)
+                            initPostmanParcel(intentData);
+                        else if (!previousId.equals(intentData))
+                            initPostmanParcel(intentData);
+                        previousId = intentData;
                     });
                 }
             }
@@ -148,23 +145,8 @@ public class Scanner extends AppCompatActivity implements Info {
         if (pojoGenericResponse.isSuccessful()) {
             Log.i(TAG, "initPostmanParcelResponse: " + pojoGenericResponse.getResponse().getPostman());
             Toast.makeText(this, "Parcel added Successfully", Toast.LENGTH_SHORT).show();
-//            excludeParcel(intentData);
         } else
             MVVMUtils.initErrMessages(this, pojoGenericResponse.getErrorMessages(), pojoGenericResponse.getResponseCode());
-    }
-
-    private void excludeParcel(String intentData) {
-        if (trackingIdList.isEmpty())
-            trackingIdList.add(intentData);
-        else {
-            Log.i(TAG, "initViews: inside Loop");
-            for (String trackingId : trackingIdList) {
-                if (!trackingId.equals(intentData)) {
-                    Log.i(TAG, "initViews: " + intentData);
-                    trackingIdList.add(intentData);
-                } else Toast.makeText(this, "Bar code Already Scanned.", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     @Override
@@ -184,11 +166,5 @@ public class Scanner extends AppCompatActivity implements Info {
             if (!cameraSourceStarted)
                 initBarCodeCamera();
         }, 500);
-    }
-
-    @Override
-    protected void onDestroy() {
-        trackingIdList = null;
-        super.onDestroy();
     }
 }
