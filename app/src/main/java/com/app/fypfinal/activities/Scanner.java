@@ -98,6 +98,7 @@ public class Scanner extends AppCompatActivity implements Info {
                             initPostmanParcel(intentData);
                         else if (!previousId.equals(intentData))
                             initPostmanParcel(intentData);
+                        else txtBarcodeValue.setText(R.string.already_scanned);
                         previousId = intentData;
                     });
                 }
