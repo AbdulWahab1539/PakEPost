@@ -250,4 +250,5 @@
     <string name="delievred">Delievred</string>
     <string name="un_received">Not Received</string>
     <string name="received">Received</string>
+    <string name="scanned_parcels">Scanned Parcels</string>
 </resources>

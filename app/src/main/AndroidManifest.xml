@@ -44,6 +44,12 @@
         android:theme="@style/Theme.FypFinal"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
+        <activity
+            android:name=".activities.DelievredParcels"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ScannedParcel"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -62,7 +68,6 @@
         <activity
             android:name=".activities.ParcelHistory"
             android:exported="true" />
-
         <activity
             android:name=".activities.UserDashboard"
             android:exported="true" />
@@ -84,6 +89,7 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

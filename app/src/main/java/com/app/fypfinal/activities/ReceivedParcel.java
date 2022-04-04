@@ -25,7 +25,6 @@ import java.util.List;
 public class ReceivedParcel extends Fragment implements Info {
 
     View fragReceivedParcel;
-
     RecyclerView rvParcel;
     LinearLayout layoutNoParcels;
     TypeRecyclerViewAdapter typeRecyclerViewAdapter;
@@ -72,20 +71,5 @@ public class ReceivedParcel extends Fragment implements Info {
         rvParcel.smoothScrollToPosition(0);
         rvParcel.setAdapter(typeRecyclerViewAdapter);
         typeRecyclerViewAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onResume() {
-//        if (Utils.profilePojo.isCustomer() && ParcelHistory.listRec != null && !ParcelHistory.listRec.isEmpty()) {
-//            ((ParcelHistory) requireActivity()).dialog.show();
-//            configureAdapter(ParcelHistory.listRec);
-//        }
-//        if (Utils.profilePojo.isPostman()
-//                && ParcelHistory.scannedParcel != null
-//                && !ParcelHistory.scannedParcel.isEmpty()) {
-//            ((ParcelHistory) requireActivity()).dialog.show();
-//            configureAdapter(ParcelHistory.scannedParcel);
-//        }
-        super.onResume();
     }
 }

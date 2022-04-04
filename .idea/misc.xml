@@ -15,6 +15,7 @@
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_admin_dashboard.xml" value="0.24728260869565216" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_appointment_screen.xml" value="0.24728260869565216" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_customer_dashboard.xml" value="0.24728260869565216" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/activity_delievred_parcels.xml" value="0.1" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_login.xml" value="0.1793478260869565" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_parcel_history.xml" value="0.152" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_postman_dashboard.xml" value="0.176" />
@@ -22,6 +23,8 @@
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_profile.xml" value="0.152" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_recieved_parcel.xml" value="0.109375" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_registration.xml" value="0.14447463768115942" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/activity_scanned_parcel.xml" value="0.1" />
+        <entry key="..\:/PakEPost/app/src/main/res/layout/activity_scanned_parcel_history.xml" value="0.1" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_scanner.xml" value="0.152" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_sent_parcel.xml" value="0.109375" />
         <entry key="..\:/PakEPost/app/src/main/res/layout/activity_track_parcel.xml" value="0.176" />

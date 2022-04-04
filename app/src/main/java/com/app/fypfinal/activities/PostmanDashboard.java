@@ -23,7 +23,7 @@ public class PostmanDashboard extends AppCompatActivity implements Info {
     }
 
     public void parcelHistory(View view) {
-        startActivity(new Intent(this, ParcelHistory.class));
+        startActivity(new Intent(this, DelievredParcels.class));
     }
 
     public void profile(View view) {
@@ -38,4 +38,10 @@ public class PostmanDashboard extends AppCompatActivity implements Info {
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+    public void scannedParcels(View view) {
+        startActivity(new Intent(this, ScannedParcel.class));
+    }
+
+
 }
