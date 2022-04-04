@@ -64,17 +64,15 @@ public class DelievredParcels extends AppCompatActivity implements Info, SwipeRe
 
     private void initParcelsListResponse(GenericResponse<List<ParcelPojo>> listGenericResponse) {
         if (listGenericResponse.isSuccessful()) {
-            for (ParcelPojo parcelPojo : listGenericResponse.getResponse()) {
-                if (parcelPojo.getPostman() != null)
+            for (ParcelPojo parcelPojo : listGenericResponse.getResponse())
+                if (!parcelPojo.getIsActive())
                     list.add(parcelPojo);
-            }
             configureAdapter();
         } else {
             MVVMUtils.initErrMessages(this, listGenericResponse.getErrorMessages(), listGenericResponse.getResponseCode());
             dialog.dismiss();
         }
     }
-
 
     public void configureAdapter() {
         initAdapter();
