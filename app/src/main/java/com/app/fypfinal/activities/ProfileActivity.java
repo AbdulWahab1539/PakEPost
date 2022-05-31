@@ -206,7 +206,7 @@ public class ProfileActivity extends AppCompatActivity implements Info {
             Utils.checkLocationPermission(this);
             return;
         }
-        dgLoading.show();
+        if (!dgLoading.isShowing()) dgLoading.show();
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                 LOCATION_REFRESH_DISTANCE, mLocationListener);
     }

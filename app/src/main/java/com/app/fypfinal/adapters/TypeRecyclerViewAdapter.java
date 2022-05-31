@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
 import com.app.fypfinal.activities.ParcelHistory;
+import com.app.fypfinal.activities.ScannedParcel;
 import com.app.fypfinal.mvvm.mvvmutils.MVVMUtils;
 import com.app.fypfinal.mvvm.pojo.Generic;
 import com.app.fypfinal.mvvm.pojo.ParcelPojo;
@@ -88,7 +89,7 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
 
     private void initParcelStatus(int position) {
         ParcelPojo parcelPojo = (ParcelPojo) listInstances.get(position);
-        ((ParcelHistory) context).dialog.show();
+        ((ScannedParcel) context).dialog.show();
         Log.i(TAG, "initParcelStatus: " + parcelPojo.getTrackingId());
         MVVMUtils.getViewModelRepo((Activity) context)
                 .markParcelDelievred((Activity) context, parcelPojo.getTrackingId())
@@ -96,7 +97,7 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
     }
 
     private void initMarkResponse(GenericResponse<Generic> genericGenericResponse) {
-        ((ParcelHistory) context).dialog.dismiss();
+        ((ScannedParcel) context).dialog.dismiss();
         if (genericGenericResponse.isSuccessful()) {
             if (Utils.profilePojo.isPostman())
                 Toast.makeText(context, "Parcel Marked as Delievred Successfully", Toast.LENGTH_SHORT).show();

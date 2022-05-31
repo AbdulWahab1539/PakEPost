@@ -29,6 +29,8 @@ import com.app.fypfinal.R;
 import com.app.fypfinal.activities.ProfileActivity;
 import com.app.fypfinal.mvvm.pojo.ProfilePojo;
 import com.bumptech.glide.Glide;
+import com.pubnub.api.PNConfiguration;
+import com.pubnub.api.PubNub;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -37,6 +39,14 @@ import java.util.regex.Pattern;
 
 public class Utils implements Info {
     public static ProfilePojo profilePojo;
+
+    public static PubNub initPubnub() {
+        PNConfiguration pnConfiguration = new PNConfiguration();
+        pnConfiguration.setSubscribeKey(PUBNUB_SUBSCRIBE_KEY);
+        pnConfiguration.setPublishKey(PUBNUB_PUBLISH_KEY);
+        pnConfiguration.setSecure(true);
+        return new PubNub(pnConfiguration);
+    }
 
     public static boolean validEt(EditText etUserName, String strEtUserName) {
         if (strEtUserName.isEmpty()) {
@@ -100,18 +110,19 @@ public class Utils implements Info {
     public static Bitmap getMarkerBitmapFromView(Context context, boolean isPostman) {
         if (context == null) return null;
         Log.i(TAG, "getMarkerBitmapFromView: ");
-        @SuppressLint("InflateParams") View customMarkerView = ((LayoutInflater) Objects.requireNonNull(context).getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(R.layout.custom_marker, null);
+        @SuppressLint("InflateParams") View customMarkerView =
+                ((LayoutInflater) Objects.requireNonNull(context).getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                        .inflate(R.layout.custom_marker, null);
         ImageView ivImage = customMarkerView.findViewById(R.id.marker_image);
-        if (!isPostman && Utils.profilePojo != null
+        if (Utils.profilePojo != null
                 && Utils.profilePojo.getProfileImage() != null
                 && !Utils.profilePojo.getProfileImage().isEmpty())
             Glide.with(context.getApplicationContext())
                     .load(Utils.profilePojo.getProfileImage())
                     .circleCrop()
                     .into(ivImage);
-        else
-            ivImage.setImageResource(R.drawable.postman);
+        else if (!isPostman) ivImage.setImageResource(R.drawable.user);
+        else ivImage.setImageResource(R.drawable.postman);
         customMarkerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         customMarkerView.layout(0, 0, customMarkerView.getMeasuredWidth(), customMarkerView.getMeasuredHeight());
         customMarkerView.buildDrawingCache();

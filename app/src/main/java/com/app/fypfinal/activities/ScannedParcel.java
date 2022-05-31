@@ -26,11 +26,11 @@ import java.util.List;
 
 public class ScannedParcel extends AppCompatActivity implements Info, SwipeRefreshLayout.OnRefreshListener {
 
+    public Dialog dialog;
     RecyclerView rvParcel;
     LinearLayout layoutNoParcels;
     TypeRecyclerViewAdapter typeRecyclerViewAdapter;
     List<Super> list;
-    Dialog dialog;
     SwipeRefreshLayout swipeRefreshLayout;
 
     @Override

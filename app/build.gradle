@@ -5,7 +5,6 @@ plugins {
 apply plugin: 'com.google.gms.google-services'
 android {
     compileSdk 31
-
     defaultConfig {
         applicationId "com.app.fypfinal"
         minSdk 23

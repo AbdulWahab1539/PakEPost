@@ -44,8 +44,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
-import com.pubnub.api.PNConfiguration;
-import com.pubnub.api.PubNub;
 import com.pubnub.api.callbacks.PNCallback;
 import com.pubnub.api.models.consumer.PNPublishResult;
 import com.pubnub.api.models.consumer.PNStatus;
@@ -70,7 +68,6 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
     Marker previousMarker;
     List<LatLng> latLngList;
     Dialog dialog;
-    public static PubNub pubNub;
 
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
@@ -123,15 +120,6 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
 
         initParcels();
 
-        initPubnub();
-    }
-
-    public void initPubnub() {
-        PNConfiguration pnConfiguration = new PNConfiguration();
-        pnConfiguration.setSubscribeKey(PUBNUB_SUBSCRIBE_KEY);
-        pnConfiguration.setPublishKey(PUBNUB_PUBLISH_KEY);
-        pnConfiguration.setSecure(true);
-        pubNub = new PubNub(pnConfiguration);
         sendUpdatedLocationMessage();
     }
 
@@ -199,7 +187,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
                 public void onLocationResult(@NonNull LocationResult locationResult) {
                     Location location = locationResult.getLastLocation();
                     LinkedHashMap<String, String> message = getNewLocationMessage(location.getLatitude(), location.getLongitude());
-                    pubNub.publish()
+                    PostmanDashboard.pubNub.publish()
                             .message(message)
                             .channel(PUBNUB_CHANNEL_NAME)
                             .async(new PNCallback<PNPublishResult>() {
@@ -435,11 +423,6 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
 
     @Override
     protected void onDestroy() {
-        if (pubNub != null) {
-            pubNub.destroy();
-            pubNub.removeChannelsFromChannelGroup();
-            pubNub.removePushNotificationsFromChannels();
-        }
         if (mMap != null) mMap.clear();
         super.onDestroy();
     }

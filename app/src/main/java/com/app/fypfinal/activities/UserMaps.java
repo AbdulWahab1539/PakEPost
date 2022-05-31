@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,7 +37,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.pubnub.api.PNConfiguration;
 import com.pubnub.api.PubNub;
 import com.pubnub.api.callbacks.SubscribeCallback;
 import com.pubnub.api.models.consumer.PNStatus;
@@ -60,7 +60,6 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
     LatLng latLng;
     Marker previousMarker, postmanMarker;
     SupportMapFragment mapFragment;
-    public static PubNub pubNub;
 
 
     LocationCallback mLocationCallback = new LocationCallback() {
@@ -95,18 +94,8 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         if (mapFragment != null) mapFragment.getMapAsync(this);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        initPubnub();
     }
 
-    public void initPubnub() {
-        Log.i(TAG, "initPubnub: ");
-        PNConfiguration pnConfiguration = new PNConfiguration();
-        pnConfiguration.setSubscribeKey(PUBNUB_SUBSCRIBE_KEY);
-        pnConfiguration.setPublishKey(PUBNUB_PUBLISH_KEY);
-        pnConfiguration.setSecure(true);
-        pubNub = new PubNub(pnConfiguration);
-    }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -123,7 +112,8 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
 
     public void startTracking(View view) {
         // This code adds the listener and subscribes user to channel with postman's location.
-        pubNub.addListener(new SubscribeCallback() {
+        Toast.makeText(this, "Postman tracking is starting Please wait!!!", Toast.LENGTH_SHORT).show();
+        UserDashboard.pubNub.addListener(new SubscribeCallback() {
             @Override
             public void status(PubNub pub, PNStatus status) {
                 Log.i(TAG, "status: " + status.getStatusCode());
@@ -148,7 +138,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
             }
         });
 
-        pubNub.subscribe()
+        UserDashboard.pubNub.subscribe()
                 .channels(Collections.singletonList(PUBNUB_CHANNEL_NAME)) // subscribe to channels
                 .execute();
     }
@@ -173,6 +163,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
     }
 
     private boolean checkForLocation() {
+        Log.i(TAG, "checkForLocation: ");
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -208,12 +199,16 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
     }
 
     private boolean placeMarkerWithAddress() {
+        Log.i(TAG, "placeMarkerWithAddress: ");
         if (previousMarker != null) previousMarker.remove();
         MarkerOptions mOptions = new MarkerOptions();
-        mOptions.title(getLocationAddress());
         mOptions.icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this, false)));
-        mOptions.position(new LatLng(latLng.latitude, latLng.longitude));
-        Marker myMarker = mMap.addMarker(mOptions);
+        Marker myMarker = null;
+        if (latLng != null) {
+            mOptions.title(getLocationAddress());
+            mOptions.position(new LatLng(latLng.latitude, latLng.longitude));
+            myMarker = mMap.addMarker(mOptions);
+        }
         if (myMarker == null) return false;
         previousMarker = myMarker;
         myMarker.hideInfoWindow();
@@ -284,11 +279,6 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
 
     @Override
     protected void onDestroy() {
-        if (pubNub != null) {
-            pubNub.destroy();
-            pubNub.removeChannelsFromChannelGroup();
-            pubNub.removePushNotificationsFromChannels();
-        }
         if (mMap != null) mMap.clear();
         super.onDestroy();
     }
