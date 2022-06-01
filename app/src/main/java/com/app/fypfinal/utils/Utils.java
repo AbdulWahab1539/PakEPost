@@ -16,7 +16,9 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -87,7 +89,23 @@ public class Utils implements Info {
         return matcher.find();
     }
 
+    public static boolean checkBackgroundLocationPermissionAPI(Context context) {
+        if (context.checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            return true;
+        else new AlertDialog.Builder(context)
+                .setTitle("Please give Allow all time permission")
+                .setMessage("Allow all time permission will help app to post your location data even if you are not using app.")
+                .setPositiveButton("OK", (dialogInterface, i) -> {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+                    intent.setData(uri);
+                    context.startActivity(intent);
+                }).setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss()).create().show();
+        return false;
+    }
+
     public static void checkLocationPermission(Activity context) {
+        Log.i(TAG, "checkLocationPermission: ");
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -106,9 +124,14 @@ public class Utils implements Info {
                                                     Manifest.permission.ACCESS_FINE_LOCATION,
                                                     Manifest.permission.ACCESS_COARSE_LOCATION}, 1)).create().show();
                 }
-            } else ActivityCompat.requestPermissions(context,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            } else new AlertDialog.Builder(context)
+                    .setTitle("give permission")
+                    .setMessage("give permission message")
+                    .setPositiveButton("OK", (dialogInterface, i) ->
+                            ActivityCompat.requestPermissions(context,
+                                    new String[]{
+                                            Manifest.permission.ACCESS_FINE_LOCATION,
+                                            Manifest.permission.ACCESS_COARSE_LOCATION}, 1)).create().show();
         }
     }
 

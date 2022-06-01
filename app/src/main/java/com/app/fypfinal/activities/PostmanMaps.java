@@ -306,6 +306,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
 
 
     private boolean checkForLocation() {
+        Log.i(TAG, "checkForLocation: ");
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -327,7 +328,8 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
         if (requestCode == 1) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
-                        PackageManager.PERMISSION_GRANTED) {
+                        PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, Looper.myLooper());
                     mMap.setMyLocationEnabled(true);
                     mMap.setOnMyLocationButtonClickListener(this);
@@ -352,8 +354,8 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
             mOptions.title(getLocationAddress(latLng.latitude, latLng.longitude));
             mOptions.position(new LatLng(latLng.latitude, latLng.longitude));
             myMarker = mMap.addMarker(mOptions);
-            if (myMarker == null) return false;
         }
+        if (myMarker == null) return false;
         previousMarker = myMarker;
         myMarker.hideInfoWindow();
         myMarker.showInfoWindow();
@@ -396,34 +398,40 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
     public void startNavigation(View view) {
         if (!checkForLocation()) return;
         if (selectedRoute != null) singleNavigation(selectedRoute);
-        else if (latLngList.size() > 0)
-            multipleNavigation();
+        else if (latLngList.size() > 0) multipleNavigation();
         else Toast.makeText(this, "No Parcels to start Navigation", Toast.LENGTH_SHORT).show();
     }
 
     private void multipleNavigation() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getMultiDirections(true)));
-        Log.i(TAG, "multipleNavigation: " + getMultiDirections(true));
-        intent.setPackage("com.google.android.apps.maps");
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException ex) {
+        if (Utils.checkBackgroundLocationPermissionAPI(this)) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getMultiDirections(true)));
+            Log.i(TAG, "multipleNavigation: " + getMultiDirections(true));
+            intent.setPackage("com.google.android.apps.maps");
             try {
-                Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getMultiDirections(true)));
-                startActivity(unrestrictedIntent);
+                startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+                try {
+                    Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getMultiDirections(true)));
+                    startActivity(unrestrictedIntent);
 //                startService(new Intent(this, GoogleService.class));
-            } catch (ActivityNotFoundException innerEx) {
-                Toast.makeText(this, "Please install a maps application", Toast.LENGTH_LONG).show();
+                } catch (ActivityNotFoundException innerEx) {
+                    Toast.makeText(this, "Please install a maps application", Toast.LENGTH_LONG).show();
+                }
             }
-        }
+        } else
+            Toast.makeText(this, "Please Select Allow all the time from permission settings", Toast.LENGTH_SHORT).show();
     }
 
     public void singleNavigation(LatLng latLng) {
-        Uri navigation = Uri.parse("google.navigation:q=" + latLng.latitude + "," + latLng.longitude + "");
-        Intent navigationIntent = new Intent(Intent.ACTION_VIEW, navigation);
-        navigationIntent.setPackage("com.google.android.apps.maps");
-        startActivity(navigationIntent);
+        if (Utils.checkBackgroundLocationPermissionAPI(this)) {
+
+            Uri navigation = Uri.parse("google.navigation:q=" + latLng.latitude + "," + latLng.longitude + "");
+            Intent navigationIntent = new Intent(Intent.ACTION_VIEW, navigation);
+            navigationIntent.setPackage("com.google.android.apps.maps");
+            startActivity(navigationIntent);
 //        startService(new Intent(this, GoogleService.class));
+        } else
+            Toast.makeText(this, "Please Select Allow all the time from permission settings", Toast.LENGTH_SHORT).show();
     }
 
     @Override

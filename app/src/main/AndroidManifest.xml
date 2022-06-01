@@ -15,14 +15,13 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
 
     <permission
         android:name="com.app.fypfinal.permission.MAPS_RECEIVE"
@@ -48,20 +47,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
 
-        <service
-            android:name=".helper.MessageService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
 
-
-        <service
-            android:name=".helper.GoogleService"
-            android:enabled="true"
-            android:exported="true"
-            android:foregroundServiceType="location" />
 
         <activity
             android:name=".activities.DelievredParcels"

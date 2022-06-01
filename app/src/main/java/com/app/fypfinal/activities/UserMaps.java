@@ -171,9 +171,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+                        == PackageManager.PERMISSION_GRANTED) {
             mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, Looper.myLooper());
             mMap.setMyLocationEnabled(true);
             mMap.setOnMyLocationButtonClickListener(this);
@@ -190,7 +188,9 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         if (requestCode == 1) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
-                        PackageManager.PERMISSION_GRANTED) {
+                        PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                                PackageManager.PERMISSION_GRANTED) {
                     mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, Looper.myLooper());
                     mMap.setMyLocationEnabled(true);
                     mMap.setOnMyLocationButtonClickListener(this);
