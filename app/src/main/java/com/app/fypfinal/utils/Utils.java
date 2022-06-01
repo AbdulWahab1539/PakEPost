@@ -164,14 +164,16 @@ public class Utils implements Info {
                 ((LayoutInflater) Objects.requireNonNull(context).getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                         .inflate(R.layout.custom_marker, null);
         ImageView ivImage = customMarkerView.findViewById(R.id.marker_image);
-        if (Utils.profilePojo != null
+        if (!isPostman && Utils.profilePojo != null
                 && Utils.profilePojo.getProfileImage() != null
                 && !Utils.profilePojo.getProfileImage().isEmpty())
             Glide.with(context.getApplicationContext())
                     .load(Utils.profilePojo.getProfileImage())
                     .circleCrop()
                     .into(ivImage);
-        else if (!isPostman) ivImage.setImageResource(R.drawable.user);
+        else if (!isPostman && (Utils.profilePojo == null ||
+                (Utils.profilePojo.getProfileImage() == null || Utils.profilePojo.getProfileImage().isEmpty())))
+            ivImage.setImageResource(R.drawable.user);
         else ivImage.setImageResource(R.drawable.postman);
         customMarkerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         customMarkerView.layout(0, 0, customMarkerView.getMeasuredWidth(), customMarkerView.getMeasuredHeight());
