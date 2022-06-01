@@ -21,8 +21,6 @@ public class PostmanDashboard extends AppCompatActivity implements Info {
         setContentView(R.layout.activity_postman_dashboard);
 
         pubNub = Utils.initPubnub();
-
-        Utils.createChannel(this);
     }
 
     public void scanQR(View view) {

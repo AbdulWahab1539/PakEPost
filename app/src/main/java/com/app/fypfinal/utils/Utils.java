@@ -4,9 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -53,22 +50,6 @@ public class Utils implements Info {
         pnConfiguration.setPublishKey(PUBNUB_PUBLISH_KEY);
         pnConfiguration.setSecure(true);
         return new PubNub(pnConfiguration);
-    }
-
-
-    // Creates notification channel.
-    public static void createChannel(Context context) {
-        // Notification channel should only be created for devices running Android API level 26+.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationChannel chan1 = new NotificationChannel(
-                    "default",
-                    "default",
-                    NotificationManager.IMPORTANCE_NONE);
-            chan1.setLightColor(Color.TRANSPARENT);
-            chan1.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
-            notificationManager.createNotificationChannel(chan1);
-        }
     }
 
     public static boolean validEt(EditText etUserName, String strEtUserName) {
@@ -172,7 +153,8 @@ public class Utils implements Info {
                     .circleCrop()
                     .into(ivImage);
         else if (!isPostman && (Utils.profilePojo == null ||
-                (Utils.profilePojo.getProfileImage() == null || Utils.profilePojo.getProfileImage().isEmpty())))
+                (Utils.profilePojo.getProfileImage() == null
+                        || Utils.profilePojo.getProfileImage().isEmpty())))
             ivImage.setImageResource(R.drawable.user);
         else ivImage.setImageResource(R.drawable.postman);
         customMarkerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
