@@ -194,8 +194,8 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
                                 @Override
                                 public void onResponse(PNPublishResult result, PNStatus status) {
                                     if (!status.isError())
-                                        System.out.println("pub timetoken: " + result.getTimetoken());
-                                    System.out.println("pub status code: " + status.getStatusCode());
+                                        Log.i(TAG, "pub timetoken: onResponse: " + result.getTimetoken());
+                                    Log.i(TAG, "onResponse: pub status code:" + status.getStatusCode());
                                 }
                             });
                 }
@@ -347,10 +347,13 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
         if (previousMarker != null) previousMarker.remove();
         MarkerOptions mOptions = new MarkerOptions();
         mOptions.icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this, false)));
-        mOptions.title(getLocationAddress(latLng.latitude, latLng.longitude));
-        mOptions.position(new LatLng(latLng.latitude, latLng.longitude));
-        Marker myMarker = mMap.addMarker(mOptions);
-        if (myMarker == null) return false;
+        Marker myMarker = null;
+        if (latLng != null) {
+            mOptions.title(getLocationAddress(latLng.latitude, latLng.longitude));
+            mOptions.position(new LatLng(latLng.latitude, latLng.longitude));
+            myMarker = mMap.addMarker(mOptions);
+            if (myMarker == null) return false;
+        }
         previousMarker = myMarker;
         myMarker.hideInfoWindow();
         myMarker.showInfoWindow();
@@ -408,6 +411,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
             try {
                 Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getMultiDirections(true)));
                 startActivity(unrestrictedIntent);
+//                startService(new Intent(this, GoogleService.class));
             } catch (ActivityNotFoundException innerEx) {
                 Toast.makeText(this, "Please install a maps application", Toast.LENGTH_LONG).show();
             }
@@ -419,11 +423,13 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
         Intent navigationIntent = new Intent(Intent.ACTION_VIEW, navigation);
         navigationIntent.setPackage("com.google.android.apps.maps");
         startActivity(navigationIntent);
+//        startService(new Intent(this, GoogleService.class));
     }
 
     @Override
     protected void onDestroy() {
         if (mMap != null) mMap.clear();
+//        stopService(new Intent(this, GoogleService.class));
         super.onDestroy();
     }
 }

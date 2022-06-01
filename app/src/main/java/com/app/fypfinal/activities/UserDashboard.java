@@ -21,6 +21,9 @@ public class UserDashboard extends AppCompatActivity implements Info {
         setContentView(R.layout.activity_user_dashboard);
 
         pubNub = Utils.initPubnub();
+
+        Utils.createChannel(this);
+
         if (SharedPerfUtils.getBooleanSharedPrefs(this, PREF_FIRST_LAUNCH))
             Utils.initProfileUpdateDialog(this);
     }

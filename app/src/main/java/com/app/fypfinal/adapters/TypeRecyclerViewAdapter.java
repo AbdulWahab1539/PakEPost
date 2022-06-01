@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.fypfinal.Info.Info;
 import com.app.fypfinal.R;
-import com.app.fypfinal.activities.ParcelHistory;
 import com.app.fypfinal.activities.ScannedParcel;
 import com.app.fypfinal.mvvm.mvvmutils.MVVMUtils;
 import com.app.fypfinal.mvvm.pojo.Generic;
@@ -81,6 +80,7 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
         holder.tvDetails.setText(parcelPojo.getDetails());
         holder.tvServiceType.setText(parcelPojo.getServiceType());
         holder.tvCharges.setText(String.valueOf(parcelPojo.getPostalCharges()));
+        holder.tvPhone.setText(parcelPojo.getReceiver().getPhoneNumber());
         if (type == TYPE_POSTMAN_SCANNED_PARCEL) {
             holder.btnDelievred.setVisibility(View.VISIBLE);
             holder.btnDelievred.setOnClickListener(view -> initParcelStatus(position));
@@ -105,7 +105,7 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
                 Toast.makeText(context, "Parcel Marked as Not Received Successfully", Toast.LENGTH_SHORT).show();
             else if (Utils.profilePojo.isCustomer() && isActiveParcel)
                 Toast.makeText(context, "Parcel Marked as Received Successfully", Toast.LENGTH_SHORT).show();
-            ((ParcelHistory) context).initParcelsInfo();
+            ((ScannedParcel) context).initParcels();
         } else
             MVVMUtils.initErrMessages(context, genericGenericResponse.getErrorMessages(), genericGenericResponse.getResponseCode());
     }

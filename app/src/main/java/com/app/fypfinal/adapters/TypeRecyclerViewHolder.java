@@ -15,7 +15,8 @@ public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
             tvCharges,
             tvLocation,
             tvReceiver,
-            tvDetails;
+            tvDetails,
+            tvPhone;
     Button btnDelievred;
 
 
@@ -27,7 +28,7 @@ public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
         tvReceiver = itemView.findViewById(R.id.tvv_receiver);
         tvServiceType = itemView.findViewById(R.id.tvv_service_type);
         tvDetails = itemView.findViewById(R.id.tvv_details);
-
+        tvPhone = itemView.findViewById(R.id.tvv_phone);
         btnDelievred = itemView.findViewById(R.id.btn_delievred);
     }
 

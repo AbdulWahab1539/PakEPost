@@ -113,6 +113,10 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
     public void startTracking(View view) {
         // This code adds the listener and subscribes user to channel with postman's location.
         Toast.makeText(this, "Postman tracking is starting Please wait!!!", Toast.LENGTH_SHORT).show();
+        fetchPostmanLocation();
+    }
+
+    public void fetchPostmanLocation() {
         UserDashboard.pubNub.addListener(new SubscribeCallback() {
             @Override
             public void status(PubNub pub, PNStatus status) {
@@ -167,7 +171,9 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
+                        == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
             mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, Looper.myLooper());
             mMap.setMyLocationEnabled(true);
             mMap.setOnMyLocationButtonClickListener(this);
@@ -281,5 +287,11 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
     protected void onDestroy() {
         if (mMap != null) mMap.clear();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        fetchPostmanLocation();
+        super.onResume();
     }
 }

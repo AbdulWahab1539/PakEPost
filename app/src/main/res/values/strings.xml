@@ -15,7 +15,7 @@
 
     <string name="username">Username</string>
     <string name="username_referral">Username / Referral code</string>
-    <string name="phone_no">Phone no.</string>
+    <string name="phone_no">Phone No</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="profile_image">User Profile Image</string>
     <string name="select_attachment_s">Select Attachment(s)</string>

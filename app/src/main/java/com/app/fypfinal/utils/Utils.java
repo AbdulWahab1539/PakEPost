@@ -3,6 +3,10 @@ package com.app.fypfinal.utils;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -48,6 +53,22 @@ public class Utils implements Info {
         return new PubNub(pnConfiguration);
     }
 
+
+    // Creates notification channel.
+    public static void createChannel(Context context) {
+        // Notification channel should only be created for devices running Android API level 26+.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel chan1 = new NotificationChannel(
+                    "default",
+                    "default",
+                    NotificationManager.IMPORTANCE_NONE);
+            chan1.setLightColor(Color.TRANSPARENT);
+            chan1.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
+            notificationManager.createNotificationChannel(chan1);
+        }
+    }
+
     public static boolean validEt(EditText etUserName, String strEtUserName) {
         if (strEtUserName.isEmpty()) {
             etUserName.setError("Field Empty");
@@ -67,18 +88,24 @@ public class Utils implements Info {
     }
 
     public static void checkLocationPermission(Activity context) {
-        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(context, android.Manifest.permission.ACCESS_FINE_LOCATION) &&
-                    ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                new android.app.AlertDialog.Builder(context)
-                        .setTitle("give permission")
-                        .setMessage("give permission message")
-                        .setPositiveButton("OK", (dialogInterface, i) ->
-                                ActivityCompat.requestPermissions(context,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                                                Manifest.permission.ACCESS_COARSE_LOCATION}, 1)).create().show();
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_COARSE_LOCATION) &&
+                    ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    new AlertDialog.Builder(context)
+                            .setTitle("give permission")
+                            .setMessage("give permission message")
+                            .setPositiveButton("OK", (dialogInterface, i) ->
+                                    ActivityCompat.requestPermissions(context,
+                                            new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                                                    Manifest.permission.ACCESS_FINE_LOCATION,
+                                                    Manifest.permission.ACCESS_COARSE_LOCATION}, 1)).create().show();
+                }
             } else ActivityCompat.requestPermissions(context,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.ACCESS_COARSE_LOCATION}, 1);

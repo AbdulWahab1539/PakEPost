@@ -70,10 +70,33 @@
                 android:textColor="@color/text_color" />
 
             <TextView
-                android:id="@+id/tv_service_type"
+                android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvv_address"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/phone_no"
+                android:textColor="@color/text_color"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvv_address"
+                android:layout_alignParentEnd="true"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="end"
+                android:text="@string/none"
+                android:textColor="@color/text_color" />
+
+            <TextView
+                android:id="@+id/tv_service_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvv_phone"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/service_type"
@@ -84,7 +107,7 @@
                 android:id="@+id/tvv_service_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvv_address"
+                android:layout_below="@id/tvv_phone"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
