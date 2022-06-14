@@ -63,7 +63,7 @@ public class ScannedParcel extends AppCompatActivity implements Info, SwipeRefre
     private void initParcelsListResponse(GenericResponse<List<ParcelPojo>> listGenericResponse) {
         if (listGenericResponse.isSuccessful()) {
             for (ParcelPojo parcelPojo : listGenericResponse.getResponse()) {
-                if (parcelPojo.getPostman() != null)
+                if (parcelPojo.getPostman() != null && parcelPojo.getIsActive())
                     list.add(parcelPojo);
             }
             configureAdapter();

@@ -3,6 +3,7 @@ package com.app.fypfinal.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,12 +15,15 @@ import com.pubnub.api.PubNub;
 public class PostmanDashboard extends AppCompatActivity implements Info {
 
     public static PubNub pubNub;
+    TextView tvWelcomeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_postman_dashboard);
 
+        tvWelcomeText = findViewById(R.id.text);
+        tvWelcomeText.setText(String.format("Welcome %s\n%s", Utils.profilePojo.getFirstName(), Utils.profilePojo.getPhoneNumber()));
         pubNub = Utils.initPubnub();
     }
 

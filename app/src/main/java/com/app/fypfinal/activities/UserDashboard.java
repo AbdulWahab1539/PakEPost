@@ -3,6 +3,7 @@ package com.app.fypfinal.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,12 +15,15 @@ import com.pubnub.api.PubNub;
 
 public class UserDashboard extends AppCompatActivity implements Info {
     public static PubNub pubNub;
+    TextView tvWelcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dashboard);
 
+        tvWelcome = findViewById(R.id.text);
+        tvWelcome.setText(String.format("Welcome %s\n%s", Utils.profilePojo.getFirstName(), Utils.profilePojo.getPhoneNumber()));
         pubNub = Utils.initPubnub();
 
         if (SharedPerfUtils.getBooleanSharedPrefs(this, PREF_FIRST_LAUNCH))

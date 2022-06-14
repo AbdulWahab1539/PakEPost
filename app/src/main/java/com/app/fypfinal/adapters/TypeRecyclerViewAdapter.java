@@ -74,6 +74,13 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
 
     private void initPostmanParcels(TypeRecyclerViewHolder holder, int position) {
         parcelPojo = (ParcelPojo) listInstances.get(position);
+        if (type == TYPE_POSTMAN_SCANNED_PARCEL && parcelPojo.getIsActive()) {
+            initParcelInfo(holder, position);
+        } else if (type == TYPE_POSTMAN_PARCEL && !parcelPojo.getIsActive())
+            initParcelInfo(holder, position);
+    }
+
+    private void initParcelInfo(TypeRecyclerViewHolder holder, int position) {
         holder.tvReceiver.setText(String.format("%s %s", parcelPojo.getReceiver().getFirstName(),
                 parcelPojo.getReceiver().getLastName()));
         holder.tvLocation.setText(parcelPojo.getReceiver().getAddress());
