@@ -106,6 +106,7 @@ public class Scanner extends AppCompatActivity implements Info {
         });
     }
 
+    //Get camera permissions
     private void initBarCodeCamera() {
         try {
             if (ActivityCompat.checkSelfPermission(
@@ -126,6 +127,7 @@ public class Scanner extends AppCompatActivity implements Info {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
                         PackageManager.PERMISSION_GRANTED) {
                     try {
+                        //access the camera
                         cameraSource.start(surfaceView.getHolder());
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -137,6 +139,7 @@ public class Scanner extends AppCompatActivity implements Info {
     }
 
     private void initPostmanParcel(String intentData) {
+        //Associates parcel with postman using barcode id
         MVVMUtils.getViewModelRepo(this)
                 .getTrackingParcel(this, intentData)
                 .observe(this, this::initPostmanParcelResponse);
@@ -161,7 +164,7 @@ public class Scanner extends AppCompatActivity implements Info {
     protected void onResume() {
         super.onResume();
         initialiseDetectorsAndSources();
-
+        //Starts camera after delay of 500 milli seconds
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() -> {
             if (!cameraSourceStarted)

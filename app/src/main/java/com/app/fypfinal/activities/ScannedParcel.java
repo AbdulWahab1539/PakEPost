@@ -55,6 +55,7 @@ public class ScannedParcel extends AppCompatActivity implements Info, SwipeRefre
     public void initParcels() {
         dialog.show();
         list.clear();
+        //get postman parcels
         MVVMUtils.getViewModelRepo(this)
                 .getParcelsList(this)
                 .observe(this, this::initParcelsListResponse);

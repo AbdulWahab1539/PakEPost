@@ -52,6 +52,7 @@ public class Utils implements Info {
         return new PubNub(pnConfiguration);
     }
 
+    //Validating Fields are empty or not
     public static boolean validEt(EditText etUserName, String strEtUserName) {
         if (strEtUserName.isEmpty()) {
             etUserName.setError("Field Empty");
@@ -95,6 +96,7 @@ public class Utils implements Info {
             if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_FINE_LOCATION) &&
                     ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_COARSE_LOCATION) &&
                     ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+                //Location Permission in android 10 and above
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     new AlertDialog.Builder(context)
                             .setTitle("give permission")
@@ -105,6 +107,7 @@ public class Utils implements Info {
                                                     Manifest.permission.ACCESS_FINE_LOCATION,
                                                     Manifest.permission.ACCESS_COARSE_LOCATION}, 1)).create().show();
                 }
+                //Below Android v 10
             } else new AlertDialog.Builder(context)
                     .setTitle("give permission")
                     .setMessage("give permission message")
@@ -137,7 +140,7 @@ public class Utils implements Info {
                 .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss()).create().show();
     }
 
-
+    //    Set image of postman or user in round from
     public static Bitmap getMarkerBitmapFromView(Context context, boolean isPostman) {
         if (context == null) return null;
         Log.i(TAG, "getMarkerBitmapFromView: ");

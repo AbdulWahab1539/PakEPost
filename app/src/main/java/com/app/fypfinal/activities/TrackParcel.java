@@ -68,6 +68,7 @@ public class TrackParcel extends AppCompatActivity implements Info {
 
     private void initTracking() {
         dialog.show();
+        //Api call to fetch information of parcel through id
         MVVMUtils.getViewModelRepo(this)
                 .getTrackingParcel(this, strEtTrackingId)
                 .observe(this, this::initTrackingResponse);

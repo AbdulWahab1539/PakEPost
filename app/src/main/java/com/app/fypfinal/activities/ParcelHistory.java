@@ -65,8 +65,10 @@ public class ParcelHistory extends AppCompatActivity implements Info, SwipeRefre
         initTabLayout();
     }
 
+    //Whatsapp like Table format layout
     private void initTabLayout() {
         fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), getLifecycle());
+        //Set Fragment from adapter
         viewPager.setAdapter(fragmentPagerAdapter);
         if (Utils.profilePojo.isCustomer()) {
             tabLayout.addTab(tabLayout.newTab().setText("Sent Parcels"));
@@ -116,6 +118,7 @@ public class ParcelHistory extends AppCompatActivity implements Info, SwipeRefre
 
     public void initParcels() {
         dialog.show();
+        //Sent Parcel API
         MVVMUtils.getViewModelRepo(this)
                 .getParcelsList(this)
                 .observe(this, this::initParcelsListResponse);
@@ -147,6 +150,7 @@ public class ParcelHistory extends AppCompatActivity implements Info, SwipeRefre
 
     public void initReceivedParcel() {
         dialog.show();
+        //Get User's recieved parcels
         MVVMUtils.getViewModelRepo(this)
                 .getReceiverParcels(this)
                 .observe(this, this::initReceivedParcelResponse);

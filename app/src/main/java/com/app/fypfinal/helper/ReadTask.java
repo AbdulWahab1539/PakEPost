@@ -24,6 +24,7 @@ public class ReadTask extends AsyncTask<String, Void, String> implements Info {
         this.googleMap = googleMap;
     }
 
+    //get direction data of destination address
     @Override
     protected String doInBackground(String... url) {
         String data = "";
@@ -76,11 +77,12 @@ class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, St
         PolylineOptions polyLineOptions = null;
         // traversing through routes
         if (routes != null)
+            //traverse through all possible routes
             for (int i = 0; i < routes.size(); i++) {
                 points = new ArrayList<>();
                 polyLineOptions = new PolylineOptions();
                 List<HashMap<String, String>> path = routes.get(i);
-
+                //traverse shortest root in the result and get latlng of every point
                 for (int j = 0; j < path.size(); j++) {
                     HashMap<String, String> point = path.get(j);
 

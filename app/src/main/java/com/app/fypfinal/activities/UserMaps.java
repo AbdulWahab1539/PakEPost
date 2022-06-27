@@ -61,14 +61,15 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
     Marker previousMarker, postmanMarker;
     SupportMapFragment mapFragment;
 
-
+    //Called whenever user location is updated
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             for (Location location : locationResult.getLocations()) {
                 if (getApplication() != null) {
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    if (checkForLocation()) placeMarkerWithAddress();
+                    if (checkForLocationPermission()) placeMarkerWithAddress();
+                    //Zoom in the map when location changes
                     if (!zoomUpdated) {
                         float zoomLevel = 17.0f; //This goes up to 21
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -105,9 +106,9 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(5000); // 5 second delay between each request
         locationRequest.setFastestInterval(5000); // 5 seconds fastest time in between each request
-        locationRequest.setSmallestDisplacement(5); // 10 meters minimum displacement for new location request
+        locationRequest.setSmallestDisplacement(5); // 5 meters minimum displacement for new location request
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // enables GPS high accuracy location requests
-        checkForLocation();
+        checkForLocationPermission();
     }
 
     public void startTracking(View view) {
@@ -127,8 +128,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
             public void message(PubNub pub, final PNMessageResult message) {
                 runOnUiThread(() -> {
                     try {
-                        Map<String, String> newLocation =
-                                JsonUtils.fromJson(message.getMessage().toString(), LinkedHashMap.class);
+                        Map<String, String> newLocation = JsonUtils.fromJson(message.getMessage().toString(), LinkedHashMap.class);
                         updateUI(newLocation);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -147,6 +147,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
                 .execute();
     }
 
+    //get location address from Lat and Lng
     private String getLocationAddress() {
         String street = null;
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -166,7 +167,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         return street;
     }
 
-    private boolean checkForLocation() {
+    private boolean checkForLocationPermission() {
         Log.i(TAG, "checkForLocation: ");
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
@@ -191,6 +192,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
                         PackageManager.PERMISSION_GRANTED &&
                         ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
                                 PackageManager.PERMISSION_GRANTED) {
+                    //Set Location update client
                     mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, Looper.myLooper());
                     mMap.setMyLocationEnabled(true);
                     mMap.setOnMyLocationButtonClickListener(this);
@@ -204,6 +206,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         return placeMarkerWithAddress();
     }
 
+    //Place marker everytime user address changes
     private boolean placeMarkerWithAddress() {
         Log.i(TAG, "placeMarkerWithAddress: ");
         if (previousMarker != null) previousMarker.remove();
@@ -242,6 +245,7 @@ public class UserMaps extends AppCompatActivity implements Info, OnMapReadyCallb
         }
     }
 
+    //Animate postman marker
     private void animatePostman(final LatLng destination) {
         final LatLng startPosition = postmanMarker.getPosition();
         final LatLng endPosition = new LatLng(destination.latitude, destination.longitude);

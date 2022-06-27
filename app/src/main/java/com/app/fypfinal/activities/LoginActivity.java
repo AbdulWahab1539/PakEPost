@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity implements Info {
         strEtPassword = etPassword.getText().toString();
     }
 
+    //Method to Validate Text Fields
     private boolean isEverythingValid() {
         if (!Utils.validEt(etEmail, strEtEmail))
             return false;
@@ -81,6 +82,7 @@ public class LoginActivity extends AppCompatActivity implements Info {
         if (!isEverythingValid()) return;
         loadingDialog.show();
         LoginPojo loginPojo = new LoginPojo(strEtEmail, strEtPassword);
+        //Calling Authentication API
         MVVMUtils.getViewModelRepo(this)
                 .loginUser(loginPojo)
                 .observe(this, this::initLoginResponse);
@@ -97,6 +99,7 @@ public class LoginActivity extends AppCompatActivity implements Info {
         loadingDialog.dismiss();
     }
 
+    //Calling Profile API
     private void initProfile() {
         Log.i(TAG, "initProfile: ");
         loadingDialog.show();

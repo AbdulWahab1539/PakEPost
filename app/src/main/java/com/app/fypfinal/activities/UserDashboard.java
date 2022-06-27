@@ -24,6 +24,7 @@ public class UserDashboard extends AppCompatActivity implements Info {
 
         tvWelcome = findViewById(R.id.text);
         tvWelcome.setText(String.format("Welcome %s\n%s", Utils.profilePojo.getFirstName(), Utils.profilePojo.getPhoneNumber()));
+        //Initialize pubnub here
         pubNub = Utils.initPubnub();
 
         if (SharedPerfUtils.getBooleanSharedPrefs(this, PREF_FIRST_LAUNCH))
@@ -52,7 +53,6 @@ public class UserDashboard extends AppCompatActivity implements Info {
         if (pubNub != null) {
             pubNub.destroy();
             pubNub.removeChannelsFromChannelGroup();
-            pubNub.removePushNotificationsFromChannels();
         }
         super.onDestroy();
     }

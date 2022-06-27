@@ -69,6 +69,8 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
     List<LatLng> latLngList;
     Dialog dialog;
 
+
+    //get location updates
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -107,9 +109,9 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
         btnDraw = findViewById(R.id.btn_draw);
 
         locationRequest = LocationRequest.create();
-        locationRequest.setInterval(3000); // 5 second delay between each request
-        locationRequest.setFastestInterval(3000); // 5 seconds fastest time in between each request
-        locationRequest.setSmallestDisplacement(5); // 10 meters minimum displacement for new location request
+        locationRequest.setInterval(3000); // 3 second delay between each request
+        locationRequest.setFastestInterval(3000); // 3 seconds fastest time in between each request
+        locationRequest.setSmallestDisplacement(5); // 5 meters minimum displacement for new location request
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // enables GPS high accuracy location requests
 
         latLngList = new ArrayList<>();
@@ -124,6 +126,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
     }
 
     private void initParcels() {
+        //Get Postman Parcels
         dialog.show();
         Log.i(TAG, "initParcels: ");
         MVVMUtils.getViewModelRepo(this)
@@ -161,7 +164,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
             MVVMUtils.initErrMessages(this, response.getErrorMessages(), response.getResponseCode());
     }
 
-
+    //fetch user location coordinates from address
     public LatLng getLocationFromAddress(Context context, String strAddress) {
         Geocoder coder = new Geocoder(context);
         List<Address> address;
@@ -219,11 +222,12 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
         Log.i(TAG, "onMapReady: ");
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
-        checkForLocation();
+        checkForLocationPermissions();
     }
 
     private void drawAllRoute() {
         MarkerOptions options = new MarkerOptions();
+        //Draw markers of postman parcels to be delieverd
         if (isLatLngAvailable()) {
             for (LatLng latLng : latLngList) {
                 options.position(latLng);
@@ -305,7 +309,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
     }
 
 
-    private boolean checkForLocation() {
+    private boolean checkForLocationPermissions() {
         Log.i(TAG, "checkForLocation: ");
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
@@ -345,7 +349,7 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
 
     private boolean placeMarkerWithAddress() {
         Log.i(TAG, "placeMarkerWithAddress: ");
-        checkForLocation();
+        checkForLocationPermissions();
         if (previousMarker != null) previousMarker.remove();
         MarkerOptions mOptions = new MarkerOptions();
         mOptions.icon(BitmapDescriptorFactory.fromBitmap(Utils.getMarkerBitmapFromView(this, false)));
@@ -392,11 +396,11 @@ public class PostmanMaps extends AppCompatActivity implements Info, OnMapReadyCa
 
     public void drawRoute(View view) {
         selectedRoute = null;
-        if (checkForLocation()) drawAllRoute();
+        if (checkForLocationPermissions()) drawAllRoute();
     }
 
     public void startNavigation(View view) {
-        if (!checkForLocation()) return;
+        if (!checkForLocationPermissions()) return;
         if (selectedRoute != null) singleNavigation(selectedRoute);
         else if (latLngList.size() > 0) multipleNavigation();
         else Toast.makeText(this, "No Parcels to start Navigation", Toast.LENGTH_SHORT).show();

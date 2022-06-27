@@ -57,11 +57,13 @@ public class ProfileActivity extends AppCompatActivity implements Info {
     LocationManager mLocationManager;
     ProfilePojo profilePojo;
 
+    //Get Location coordinates of user
     private final LocationListener mLocationListener = location -> {
         Log.i(TAG, ": " + location.getLatitude());
         Log.i(TAG, ": " + location.getLongitude());
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try {
+            //Get Address from location coordinates
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             Log.i(TAG, ": " + addresses.get(0).getAddressLine(0));
             tvLocation.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
@@ -139,6 +141,7 @@ public class ProfileActivity extends AppCompatActivity implements Info {
                     .into(ivProfile);
 
         Log.i(TAG, "initDefaultProfile: " + Utils.profilePojo.getLatitude() + Utils.profilePojo.getLongitude());
+        //Get location address from users coordinates
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(Utils.profilePojo.getLatitude()),
@@ -149,6 +152,7 @@ public class ProfileActivity extends AppCompatActivity implements Info {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //Check if user has provided lat lng and address information
         if ((Utils.profilePojo.getAddress() != null
                 && !Utils.profilePojo.getAddress().isEmpty())
                 || (Double.parseDouble(Utils.profilePojo.getLatitude()) != 0.0
@@ -170,6 +174,7 @@ public class ProfileActivity extends AppCompatActivity implements Info {
         strEtAddress = etAddress.getText().toString();
     }
 
+    //Called when user picks a photo from gallery or camera
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -179,6 +184,7 @@ public class ProfileActivity extends AppCompatActivity implements Info {
             File imageFile = new File(uri.getPath());
             Log.i(TAG, "onActivityResult: " + imageFile.getAbsolutePath());
             ivProfile.setImageURI(uri);
+            //call image update API
             MVVMUtils.getViewModelRepo(this)
                     .updatePhoto(this, MVVMUtils.fileRequest(imageFile))
                     .observe(this, this::initPhotoResponse);
@@ -246,6 +252,7 @@ public class ProfileActivity extends AppCompatActivity implements Info {
         if (Utils.profilePojo.isPostman()) profilePojo.setPostman(true);
         else if (Utils.profilePojo.isCustomer()) profilePojo.setCustomer(true);
         dgLoading.show();
+        //Call profile update API
         MVVMUtils.getViewModelRepo(this)
                 .updateProfile(this, profilePojo)
                 .observe(this, this::initUpdateResponse);

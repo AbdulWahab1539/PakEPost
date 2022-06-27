@@ -24,6 +24,7 @@ public class PostmanDashboard extends AppCompatActivity implements Info {
 
         tvWelcomeText = findViewById(R.id.text);
         tvWelcomeText.setText(String.format("Welcome %s\n%s", Utils.profilePojo.getFirstName(), Utils.profilePojo.getPhoneNumber()));
+        //Initialize pubnub here
         pubNub = Utils.initPubnub();
     }
 
@@ -57,7 +58,6 @@ public class PostmanDashboard extends AppCompatActivity implements Info {
         if (pubNub != null) {
             pubNub.destroy();
             pubNub.removeChannelsFromChannelGroup();
-            pubNub.removePushNotificationsFromChannels();
         }
         super.onDestroy();
     }
