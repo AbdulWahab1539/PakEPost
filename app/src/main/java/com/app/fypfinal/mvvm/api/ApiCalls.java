@@ -25,7 +25,7 @@ public interface ApiCalls {
 
     //API Url
     String BASE_URL = "https://jhonydev901.pythonanywhere.com";
-//    String BASE_URL = "http://d1ac-59-103-244-165.ngrok.io";
+//    String BASE_URL = "http://192.168.1.1:4000";
 
     String URL_REGISTRATION = "/auth/registration/";
     String URL_LOGIN = "/auth/login/";
