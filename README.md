@@ -1,4 +1,4 @@
 # PakEPost
 
 
-A Small Application based on Uber model
+A Application based on Uber model
